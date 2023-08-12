@@ -3,8 +3,11 @@ Simple pyplanet application to add RandomMapsTogether gamemodes
 
 ## Installation
 ### docker
-I recommend using docker and using the following image docker.buddaphest.se/marwinfaiter/pyplanet:rmt
-Or cloning this repo and running "docker compose up -d"
+There are two ways I would recommend:
+* Using docker and using the following image docker.buddaphest.se/marwinfaiter/pyplanet:rmt
+  * Requires a database and also a trackmania server to hook into 
+* Cloning this repo and running "docker compose up -d"
+  * This is probably the easier one
 
 ## configurations
 | ***setting***       | ***values***         | ***description***                                                                                                      |
