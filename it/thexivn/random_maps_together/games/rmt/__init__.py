@@ -6,8 +6,11 @@ from pyplanet.apps.core.maniaplanet import callbacks as mania_callback
 from pyplanet.apps.core.trackmania import callbacks as tm_callbacks
 from pyplanet.utils.times import format_time
 
-from .. import Game, check_player_allowed_to_manage_running_game
-from ...models.game_state import GameState
+
+from .. import Game
+from ...configuration import check_player_allowed_to_manage_running_game
+from ...models.rmt.game_state import GameState
+from ...models.enums.game_script import GameScript
 from ...models.database.rmt.random_maps_together_score import RandomMapsTogetherScore
 from ...models.database.rmt.random_maps_together_player_score import RandomMapsTogetherPlayerScore
 from ...models.game_views.rmt import RandomMapsTogetherViews
@@ -24,6 +27,9 @@ _lock = asyncio.Lock()
 logger = logging.getLogger(__name__)
 
 class RMTGame(Game):
+    game_script = GameScript.TIME_ATTACK
+    game_mode: GameModes
+
     def __init__(self, app):
         super().__init__(app)
         self.config: RandomMapsTogetherConfiguration
@@ -75,11 +81,12 @@ class RMTGame(Game):
         return self
 
     async def __aexit__(self, *err):
-        self.game_state.round_timer.stop_timer()
         if self.game_mode == GameModes.RANDOM_MAP_SURVIVAL:
             self.config.game_time_seconds += \
                 self.config.skip_penalty_seconds * self.game_state.penalty_skips # type: ignore[attr-defined]
+        self.game_state.round_timer.stop_timer()
         await self.config.update_time_left()
+        self.game_state.round_timer.stop_timer()
         if self.game_state.time_left == 0 and self.score.medal_sum:
             self.score.total_time = self.game_state.round_timer.total_time
             await self.score.save()
@@ -318,6 +325,7 @@ class RMTGame(Game):
         self.app.tm_ui_manager.properties.set_visibility(BIG_MESSAGE, visible)
         await self.app.tm_ui_manager.properties.send_properties()
 
+    # pylint: disable=duplicate-code
     async def player_connect(self, player: Player, is_spectator: bool, *_args, **_kwargs):
         if not is_spectator:
             self.config.update_player_configs()
@@ -329,16 +337,3 @@ class RMTGame(Game):
 
     async def player_disconnect(self, player: Player, *args, **kwargs):
         self.config.player_configs.pop(player.login, None)
-
-    async def load_map_and_display_ingame_view(self):
-        try:
-            await asyncio.gather(
-                self.app.map_handler.load_with_retry(),
-                self.views.ingame_view.display()
-            )
-        except Exception as exc:
-            await asyncio.gather(
-                self.views.ingame_view.hide(),
-                self.app.game.views.settings_view.display()
-            )
-            raise RuntimeError(f"Error occurred when loading next map: {str(exc)}") from exc

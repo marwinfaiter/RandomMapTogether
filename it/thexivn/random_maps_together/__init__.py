@@ -13,7 +13,7 @@ from pyplanet.core.db.database import Database
 from .map_handler import MapHandler
 from .client.tm_exchange_client import TMExchangeClient
 from .views.game_selector_view import GameSelectorView
-from .games import check_player_allowed_to_change_game_settings, check_player_allowed_to_manage_running_game
+from .configuration import check_player_allowed_to_change_game_settings, check_player_allowed_to_manage_running_game
 from .games.rmt.random_map_challenge_game import RandomMapChallengeGame
 from .constants import S_TIME_LIMIT
 from .settings import MIN_PLAYER_LEVEL_SETTINGS
@@ -56,7 +56,6 @@ class RandomMapsTogetherApp(AppConfig):
 
         mania_callback.player.player_connect.register(self.player_connect)
         mania_callback.player.player_disconnect.register(self.player_disconnect)
-        mania_callback.map.map_begin.register(self.map_handler.map_begin_event)
 
         logger.info("application initialized correctly")
 
@@ -68,7 +67,6 @@ class RandomMapsTogetherApp(AppConfig):
 
         mania_callback.player.player_connect.unregister(self.game.player_connect)
         mania_callback.player.player_disconnect.unregister(self.game.player_disconnect)
-        mania_callback.map.map_begin.unregister(self.map_handler.map_begin_event)
 
         await self.game_selector.destroy()
 
@@ -92,9 +90,6 @@ class RandomMapsTogetherApp(AppConfig):
 
         await self.chat(f"{self.game.game_mode.value} ended")
         await self.map_handler.load_hub()
-
-        self.mode_settings[S_TIME_LIMIT] = 0
-        await self.mode_manager.update_settings(self.mode_settings)
 
         self.game.game_starting_player = None
         await self.game_selector.display()
