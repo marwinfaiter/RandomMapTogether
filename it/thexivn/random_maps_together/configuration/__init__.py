@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.config import AppConfig
@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from .. import RandomMapsTogetherApp
 
 def check_player_allowed_to_manage_running_game(f):
-    async def wrapper(self, player: Player, *args, **kwargs) -> bool:
+    async def wrapper(self, player: Player, *args, **kwargs) -> Any:
         if isinstance(self, AppConfig):
             if not(player.level == Player.LEVEL_MASTER or player == self.game.game_starting_player):
                 return await self.chat("You are not allowed manage running game", player)
@@ -27,7 +27,7 @@ def check_player_allowed_to_manage_running_game(f):
     return wrapper
 
 def check_player_allowed_to_change_game_settings(f):
-    async def wrapper(self, player: Player, *args, **kwargs) -> bool:
+    async def wrapper(self, player: Player, *args, **kwargs) -> Any:
         if isinstance(self, AppConfig):
             if player.level < await MIN_PLAYER_LEVEL_SETTINGS.get_value():
                 return await self.chat("You are not allowed to change game settings", player)

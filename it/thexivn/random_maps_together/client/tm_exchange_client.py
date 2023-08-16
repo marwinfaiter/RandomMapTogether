@@ -9,7 +9,7 @@ class TMExchangeClient:
     def __init__(self):
         self.base_url = "https://trackmania.exchange/"
         self.session = aiohttp.ClientSession(conn_timeout=10)
-        self.map_tags = None
+        self.map_tags: List[MapTag]
 
     async def get_json(self, url, params=None):
         async with self.session.get(f"{self.base_url}{url}", params=params) as response:
@@ -21,14 +21,14 @@ class TMExchangeClient:
             response.raise_for_status()
             return await response.read()
 
-    async def search_map(self, params=None):
+    async def search_map(self, params=None) -> List[APIMapInfo]:
         response = await self.get_json("mapsearch2/search", params)
         return [
             APIMapInfo.from_json(map_json, await self.get_tags())
             for map_json in response.get("results", [])
         ]
 
-    async def search_random_map(self):
+    async def search_random_map(self) -> APIMapInfo:
         maps = await self.search_map({
             "api": "on",
             "random": 1,

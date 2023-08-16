@@ -1,5 +1,6 @@
 import logging
 import random
+from typing import List
 
 from ..models.api_response.api_map_info import APIMapInfo
 from . import MapGenerator, MapGeneratorType
@@ -14,5 +15,5 @@ class TOTD(MapGenerator):
 
     async def get_map(self) -> APIMapInfo:
         map_pack = await self.app.tmx_client.search_random_mappack_totd()
-        map_pack_tracks = await self.app.tmx_client.get_mappack_tracks(map_pack.id)
+        map_pack_tracks: List[APIMapInfo] = await self.app.tmx_client.get_mappack_tracks(map_pack.id)
         return random.choice([map for map in map_pack_tracks if map not in self.played_maps])
