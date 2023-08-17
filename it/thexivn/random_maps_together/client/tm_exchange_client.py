@@ -9,7 +9,7 @@ class TMExchangeClient:
     def __init__(self):
         self.base_url = "https://trackmania.exchange/"
         self.session = aiohttp.ClientSession(conn_timeout=10)
-        self.map_tags: List[MapTag]
+        self.map_tags: List[MapTag] = []
 
     def __del__(self, *_args):
         self.session.close()
