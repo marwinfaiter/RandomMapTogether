@@ -1,11 +1,11 @@
-from dataclasses import dataclass
+from attrs import define
 from typing import Tuple
 
 from ...enums.team import Team
 from . import Piece
 
 
-@dataclass
+@define
 class Pawn(Piece):
     max_steps: int = 1
 

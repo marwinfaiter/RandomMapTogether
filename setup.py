@@ -47,14 +47,16 @@ setup(
         'aiohttp',
         "async-timeout<4.0",
         "Markupsafe<2.1.0",
-        "types-peewee"
+        "types-peewee",
+        "attrs",
+        "cattrs",
     ],
     extras_require={
         "test": [
             "mypy",
             "pytest",
             "pylint",
-            "mockito"
+            "mockito",
         ]
     }
 )

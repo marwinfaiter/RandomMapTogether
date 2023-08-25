@@ -1,7 +1,7 @@
-from dataclasses import dataclass, field
+from attrs import define, field
 from pyplanet.views.generics.widget import WidgetView
 
-@dataclass
+@define
 class GameViews:
     settings_view: WidgetView = field(init=False)
     ingame_view: WidgetView = field(init=False)

@@ -1,9 +1,9 @@
-from dataclasses import dataclass
+from attrs import define
 from typing import Optional
 from pyplanet.apps.core.maniaplanet.models import Player
 from ..enums.medals import Medals
 
-@dataclass
+@define
 class PlayerConfiguration:
     player: Player
     goal_medal: Optional[Medals] = None

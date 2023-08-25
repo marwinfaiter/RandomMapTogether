@@ -1,10 +1,10 @@
-from dataclasses import dataclass
+from attrs import define
 from typing import Tuple
 
 from . import Piece
 
 
-@dataclass
+@define
 class Queen(Piece):
     # pylint: disable=duplicate-code
     def moves(self):

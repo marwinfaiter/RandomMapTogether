@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from attrs import define, field
 from typing import Callable, List, Optional
 import logging
 
@@ -37,9 +37,9 @@ def create_default_pieces():
         Rook(Team.BLACK, 7, 7),
     ]
 
-@dataclass
+@define
 class GameState:
-    pieces: List[Piece] = field(default_factory=create_default_pieces)
+    pieces: List[Piece] = field(factory=create_default_pieces)
     turn: Team = Team.WHITE
     current_map_completed: bool = True
     current_piece: Optional[Piece] = None

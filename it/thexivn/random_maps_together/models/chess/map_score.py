@@ -1,7 +1,7 @@
-from dataclasses import dataclass
+from attrs import define
 from ..enums.team import Team
 
-@dataclass
+@define
 class MapScore:
     map_points: int
     name: str

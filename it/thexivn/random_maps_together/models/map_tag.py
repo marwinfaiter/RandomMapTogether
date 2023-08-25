@@ -1,9 +1,9 @@
-from dataclasses import dataclass
+from attrs import define
 
 import re
 
 
-@dataclass(frozen=True)
+@define(frozen=True)
 class MapTag:
     id: int
     name: str

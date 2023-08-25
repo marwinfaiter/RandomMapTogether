@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from attrs import define, field
 from typing import Dict
 from pyplanet.apps.core.maniaplanet.models import Player
 
@@ -11,14 +11,14 @@ from ...views.rmt.player_config_view import PlayerConfigView
 from ...views.rmt.leaderboard_view import LeaderboardView
 from ...views.player_prompt_view import PlayerPromptView
 
-@dataclass
+@define
 class RandomMapsTogetherConfiguration(Configuration):
     map_generator: MapGenerator
     game_time_seconds: int = field(init=False)
-    goal_medal = Medals.AUTHOR
-    skip_medal = Medals.GOLD
-    enabled = True
-    player_configs: Dict[str, PlayerConfiguration] = field(default_factory=dict)
+    goal_medal: Medals = Medals.AUTHOR
+    skip_medal: Medals = Medals.GOLD
+    enabled: bool = True
+    player_configs: Dict[str, PlayerConfiguration] = field(factory=dict)
 
     async def update_time_left(self, free_skip=False, goal_medal=False, skip_medal=False):
         pass

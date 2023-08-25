@@ -1,6 +1,6 @@
-from dataclasses import dataclass
+from attrs import define
 
-@dataclass(frozen=True)
+@define(frozen=True)
 class APIMapPackInfo:
     id: int
     name: str

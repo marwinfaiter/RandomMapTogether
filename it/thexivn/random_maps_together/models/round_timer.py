@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from attrs import define
 from typing import Union
 import time
 import logging
@@ -6,7 +6,7 @@ from pyplanet.utils.times import format_time
 
 logger = logging.getLogger(__name__)
 
-@dataclass
+@define
 class RoundTimer:
     total_time: int = 0
     start_round: Union[int, float] = 0

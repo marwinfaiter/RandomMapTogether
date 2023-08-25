@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from attrs import define
 from typing import TYPE_CHECKING, Any
 
 from pyplanet.apps.core.maniaplanet.models import Player
@@ -37,7 +37,7 @@ def check_player_allowed_to_change_game_settings(f):
         return await f(self, player, *args, **kwargs)
     return wrapper
 
-@dataclass
+@define
 class Configuration:
     app: "RandomMapsTogetherApp"
     map_generator: MapGenerator

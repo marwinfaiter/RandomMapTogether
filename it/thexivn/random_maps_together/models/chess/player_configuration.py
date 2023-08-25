@@ -1,8 +1,8 @@
-from dataclasses import dataclass
+from attrs import define
 from typing import Optional
 from pyplanet.apps.core.maniaplanet.models import Player
 
-@dataclass
+@define
 class PlayerConfiguration:
     player: Player
     leader: Optional[bool] = False

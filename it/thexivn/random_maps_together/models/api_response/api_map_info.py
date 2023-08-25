@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from attrs import define
 from typing import Tuple, List
 from datetime import date, datetime
 
@@ -6,7 +6,7 @@ from ..map_tag import MapTag
 from ...constants import TAG_BOBSLEIGH, TAG_ICE, ICE_CHANGE_DATE
 
 
-@dataclass(frozen=True)
+@define(frozen=True)
 class APIMapInfo:
     TrackID: int
     TrackUID: int

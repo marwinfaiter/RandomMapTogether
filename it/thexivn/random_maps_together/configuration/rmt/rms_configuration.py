@@ -1,14 +1,14 @@
-from dataclasses import dataclass
+from attrs import define
 from pyplanet.apps.core.maniaplanet.models import Player
 from . import RandomMapsTogetherConfiguration
 from ...configuration import check_player_allowed_to_change_game_settings
 from ...views.player_prompt_view import PlayerPromptView
 
-@dataclass
+@define
 class RandomMapSurvivalConfiguration(RandomMapsTogetherConfiguration):
-    game_time_seconds = 900
-    goal_bonus_seconds = 180
-    skip_penalty_seconds = 60
+    game_time_seconds: int = 900
+    goal_bonus_seconds: int = 180
+    skip_penalty_seconds: int = 60
 
     async def update_time_left(self, free_skip=False, goal_medal=False, skip_medal=False):
         self.app.game.game_state.time_left -= self.app.game.game_state.round_timer.last_round

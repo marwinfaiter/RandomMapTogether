@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from attrs import define
 import logging
 
 from pyplanet.apps.core.maniaplanet.models import Player
@@ -7,10 +7,10 @@ from ...configuration import check_player_allowed_to_change_game_settings
 
 logger = logging.getLogger(__name__)
 
-@dataclass
+@define
 class RandomMapChallengeConfiguration(RandomMapsTogetherConfiguration):
-    game_time_seconds = 3600
-    infinite_free_skips = False
+    game_time_seconds: int = 3600
+    infinite_free_skips: bool = False
 
     async def update_time_left(self, free_skip=False, goal_medal=False, skip_medal=False):
         self.app.game.game_state.time_left -= self.app.game.game_state.round_timer.last_round
