@@ -1,3 +1,5 @@
+import peeweedbevolve as _
+
 from peewee import IntegerField
 from typing import Union
 from pyplanet.core.db import TimedModel

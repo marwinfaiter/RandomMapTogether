@@ -3,7 +3,8 @@ from typing import List, Dict
 from pyplanet.apps.config import AppConfig
 from pyplanet.views.generics.list import ManualListView
 
-from ...models.database.rmt.random_maps_together_score import RandomMapsTogetherScore
+from ...models.database.rmt.rmt_score import RMTScore
+from ...models.database.rmt.rmt_player_score import RMTPlayerScore
 # pylint: disable=duplicate-code
 logger = logging.getLogger(__name__)
 
@@ -101,18 +102,27 @@ class LeaderboardView(ManualListView): # pylint: disable=duplicate-code
 
 
     async def get_data(self):
-        return list(await RandomMapsTogetherScore.execute(
-            RandomMapsTogetherScore.select()
-            .where(RandomMapsTogetherScore.game_mode == self.app.game.game_mode.value)
+        return list(await RMTScore.execute(
+            RMTScore.select(
+                RMTScore,
+                RMTScore.medal_sum.alias("medal_sum"), # type: ignore[attr-defined] # pylint: disable=no-member
+                RMTScore.modified_player_settings.alias("modified_player_settings"), # type: ignore[attr-defined] # pylint: disable=no-member
+                RMTScore.total_goal_medals.alias("total_goal_medals"), # type: ignore[attr-defined] # pylint: disable=no-member
+                RMTScore.total_skip_medals.alias("total_skip_medals"), # type: ignore[attr-defined] # pylint: disable=no-member
+            ).join(
+                RMTPlayerScore,
+            ).where(
+                RMTScore.game_mode == self.app.game.game_mode.value
+            )
             .order_by(
-                RandomMapsTogetherScore.modified_player_settings,
-                RandomMapsTogetherScore.total_goal_medals.desc(),
-                RandomMapsTogetherScore.total_skip_medals.desc()
+                RMTScore.modified_player_settings,
+                RMTScore.total_goal_medals.desc(), # type: ignore[attr-defined] # pylint: disable=no-member
+                RMTScore.total_skip_medals.desc() # type: ignore[attr-defined] # pylint: disable=no-member
             ).dicts()
         ))
 
     async def display_score_board(self, player, values, row, **_kwargs): # pylint: disable=unused-argument
-        self.app.game.views.scoreboard_view.game_score = await RandomMapsTogetherScore.get(
-            RandomMapsTogetherScore.id == row["id"] # pylint: disable=no-member
+        self.app.game.views.scoreboard_view.game_score = await RMTScore.get(
+            RMTScore.id == row["id"] # pylint: disable=no-member
         )
         await self.app.game.views.scoreboard_view.display([player.login])

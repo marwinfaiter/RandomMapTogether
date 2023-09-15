@@ -11,8 +11,8 @@ from .. import Game
 from ...configuration import check_player_allowed_to_manage_running_game
 from ...models.rmt.game_state import GameState
 from ...models.enums.game_script import GameScript
-from ...models.database.rmt.random_maps_together_score import RandomMapsTogetherScore
-from ...models.database.rmt.random_maps_together_player_score import RandomMapsTogetherPlayerScore
+from ...models.database.rmt.rmt_score import RMTScore
+from ...models.database.rmt.rmt_player_score import RMTPlayerScore
 from ...models.game_views.rmt import RandomMapsTogetherViews
 from ...models.enums.game_modes import GameModes
 from ...views.rmt.scoreboard import RandomMapsTogetherScoreBoardView
@@ -34,7 +34,7 @@ class RMTGame(Game):
         super().__init__(app)
         self.config: RandomMapsTogetherConfiguration
         self.game_state: GameState
-        self.score: RandomMapsTogetherScore
+        self.score: RMTScore
         self.views: RandomMapsTogetherViews = RandomMapsTogetherViews()
         self.app.mode_settings[S_FORCE_LAPS_NB] = -1
 
@@ -65,7 +65,7 @@ class RMTGame(Game):
         self.config.map_generator.played_maps.clear()
         self.app.map_handler.next_map = None
 
-        self.score = self.views.scoreboard_view.game_score = await RandomMapsTogetherScore.create(
+        self.score = self.views.scoreboard_view.game_score = await RMTScore.create(
             game_mode=self.game_mode.value,
             game_time_seconds=self.config.game_time_seconds,
             goal_medal=self.config.goal_medal.name,
@@ -86,7 +86,7 @@ class RMTGame(Game):
                 self.config.skip_penalty_seconds * self.game_state.penalty_skips # type: ignore[attr-defined]
         self.game_state.round_timer.stop_timer()
         await self.config.update_time_left()
-        if self.game_state.time_left == 0 and self.score.medal_sum:
+        if self.game_state.time_left == 0 and await self.score.medal_sum: # type: ignore[misc]
             self.score.total_time = self.game_state.round_timer.total_time
             await self.score.save()
         else:
@@ -134,9 +134,9 @@ class RMTGame(Game):
         if not self.game_state.current_map_completed or self.game_state.time_left == 0:
             logger.info("%s finished successfully", self.game_mode.value)
             await self.app.chat(
-                "Challenge completed"
-                f" {self.config.goal_medal.name}: {self.score.total_goal_medals}"
-                f" {self.config.skip_medal.name}: {self.score.total_skip_medals}"
+                "Challenge completed" # type: ignore[misc]
+                f" {self.config.goal_medal.name}: {await self.score.total_goal_medals}"
+                f" {self.config.skip_medal.name}: {await self.score.total_skip_medals}"
             )
             self.game_is_in_progress = False
         else:
@@ -175,11 +175,7 @@ class RMTGame(Game):
                 self.game_state.round_timer.stop_timer()
                 await self.config.update_time_left(goal_medal=True)
 
-                self.score.total_goal_medals += 1
-                self.score.medal_sum += race_medal.value
-                self.score.save()
-
-                player_score, _ = await RandomMapsTogetherPlayerScore.get_or_create(
+                player_score, _ = await RMTPlayerScore.get_or_create(
                     game_score=self.score.id,
                     player=player.id,
                     defaults={
@@ -188,7 +184,6 @@ class RMTGame(Game):
                     }
                 )
                 await player_score.increase_medal_count(race_medal)
-                player_score.total_goal_medals += 1
                 await player_score.save()
 
                 self.game_state.current_map_completed = True
@@ -236,11 +231,7 @@ class RMTGame(Game):
         self.game_state.round_timer.stop_timer()
         await self.config.update_time_left(skip_medal=True)
 
-        self.score.total_skip_medals += 1
-        self.score.medal_sum += self.game_state.skip_medal.value
-        self.score.save()
-
-        player_score, _ = await RandomMapsTogetherPlayerScore.get_or_create(
+        player_score, _ = await RMTPlayerScore.get_or_create(
             game_score=self.score.id,
             player=self.game_state.skip_medal_player.id,
             defaults={
@@ -252,7 +243,7 @@ class RMTGame(Game):
                 ),
             }
         )
-        player_score.total_skip_medals += 1
+
         await player_score.increase_medal_count(self.game_state.skip_medal)
         await player_score.save()
 

@@ -1,3 +1,5 @@
+import peeweedbevolve as _
+
 from peewee import CharField, IntegerField, ForeignKeyField, BooleanField
 from pyplanet.core.db import TimedModel
 from typing import Union

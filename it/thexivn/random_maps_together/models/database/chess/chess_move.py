@@ -1,3 +1,5 @@
+import peeweedbevolve as _
+
 from peewee import IntegerField, ForeignKeyField
 from pyplanet.core.db import TimedModel
 

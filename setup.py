@@ -47,9 +47,9 @@ setup(
         'aiohttp',
         "async-timeout<4.0",
         "Markupsafe<2.1.0",
-        "types-peewee",
         "attrs",
         "cattrs",
+        "peewee-db-evolve",
     ],
     extras_require={
         "test": [
@@ -57,6 +57,7 @@ setup(
             "pytest",
             "pylint",
             "mockito",
+            "types-peewee",
         ]
     }
 )

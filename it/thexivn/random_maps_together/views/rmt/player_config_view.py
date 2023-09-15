@@ -6,7 +6,7 @@ from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet.models import Player
 
 from ...models.enums.medals import Medals
-from ...models.database.rmt.random_maps_together_player_score import RandomMapsTogetherPlayerScore
+from ...models.database.rmt.rmt_player_score import RMTPlayerScore
 from ..player_prompt_view import PlayerPromptView
 from ...configuration import check_player_allowed_to_change_game_settings
 # pylint: disable=duplicate-code
@@ -123,7 +123,7 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
         self.app.game.config.player_configs[row["player_login"]].goal_medal = medal
         if self.app.game.game_is_in_progress:
             try:
-                player_score = await RandomMapsTogetherPlayerScore.get(
+                player_score = await RMTPlayerScore.get(
                     game_score=self.app.game.score.id,
                     player=(await Player.get_by_login(row["player_login"])).id,
                 )
@@ -149,7 +149,7 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
         self.app.game.config.player_configs[row["player_login"]].skip_medal = medal
         if self.app.game.game_is_in_progress:
             try:
-                player_score = await RandomMapsTogetherPlayerScore.get(
+                player_score = await RMTPlayerScore.get(
                     game_score=self.app.game.score.id,
                     player=(await Player.get_by_login(row["player_login"])).id,
                 )

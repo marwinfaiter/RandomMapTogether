@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from typing import Dict
+import peeweedbevolve as _
 
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet import callbacks as mania_callback
@@ -8,19 +9,16 @@ from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.contrib.chat import ChatManager
 from pyplanet.contrib.mode import ModeManager
 from pyplanet.core.ui import GlobalUIManager
-from pyplanet.core.db.database import Database
+from pyplanet.core.db.database import Database, Proxy
 
 from .map_handler import MapHandler
 from .client.tm_exchange_client import TMExchangeClient
 from .views.game_selector_view import GameSelectorView
 from .configuration import check_player_allowed_to_change_game_settings, check_player_allowed_to_manage_running_game
 from .games.rmt.random_map_challenge_game import RandomMapChallengeGame
-from .constants import S_TIME_LIMIT
 from .settings import MIN_PLAYER_LEVEL_SETTINGS
 
 logger = logging.getLogger(__name__)
-
-# TODO: Voting for skip
 
 class RandomMapsTogetherApp(AppConfig):
     app_dependencies = ['core.maniaplanet', 'core.trackmania']
@@ -43,6 +41,19 @@ class RandomMapsTogetherApp(AppConfig):
 
     async def on_init(self):
         await super().on_init()
+        with self.db.allow_sync():
+            Proxy.evolve(
+                interactive=False,
+                ignore_tables=[
+                    "map",
+                    "migration",
+                    "model",
+                    "permission",
+                    "player",
+                    "setting",
+                    "stats_scores",
+                ]
+            )
         self.mode_settings = await self.instance.mode_manager.get_settings()
 
         self.game = RandomMapChallengeGame(self)

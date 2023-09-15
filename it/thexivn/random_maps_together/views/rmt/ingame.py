@@ -54,8 +54,8 @@ class RandomMapsTogetherIngameView(WidgetView):
 
         data["game"] = self.game
 
-        data["total_goal_medals"] = self.game.score.total_goal_medals
-        data["total_skip_medals"] = self.game.score.total_skip_medals
+        data["total_goal_medals"] = await self.game.score.total_goal_medals
+        data["total_skip_medals"] = await self.game.score.total_skip_medals
 
         data["is_paused"] = self.game.game_state.is_paused
         data["goal_medal_substyle"] = MedalSubstyle[self.game.config.goal_medal.name].value

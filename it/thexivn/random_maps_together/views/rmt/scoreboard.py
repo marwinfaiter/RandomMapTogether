@@ -6,8 +6,8 @@ from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.utils.times import format_time
 
 from ...models.enums.medal_urls import MedalSubstyle
-from ...models.database.rmt.random_maps_together_player_score import RandomMapsTogetherPlayerScore
-from ...models.database.rmt.random_maps_together_score import RandomMapsTogetherScore
+from ...models.database.rmt.rmt_player_score import RMTPlayerScore
+from ...models.database.rmt.rmt_score import RMTScore
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ class RandomMapsTogetherScoreBoardView(TemplateView):
         logger.info("Loading VIEW")
         self.game = game
         self.manager = game.app.context.ui
-        self.game_score: RandomMapsTogetherScore
+        self.game_score: RMTScore
         self.id = "it_thexivn_RandomMapsTogether_scoreboard"
         self._player_loops = {}
         self.subscribe("ui_hide_scoreboard", self.hide_scoreboard_for_player)
@@ -27,13 +27,13 @@ class RandomMapsTogetherScoreBoardView(TemplateView):
     async def get_context_data(self):
         data = await super().get_context_data()
         data["game"] = self.game
-        data["total_goal_medals"] = self.game_score.total_goal_medals
-        data["total_skip_medals"] = self.game_score.total_skip_medals
+        data["total_goal_medals"] = await self.game_score.total_goal_medals # type: ignore[misc]
+        data["total_skip_medals"] = await self.game_score.total_skip_medals # type: ignore[misc]
         data["goal_medal_substyle"] = MedalSubstyle[self.game_score.goal_medal].value # type: ignore[misc]
         data["skip_medal_substyle"] = MedalSubstyle[self.game_score.skip_medal].value # type: ignore[misc]
         data["medal_substyle"] = MedalSubstyle
 
-        data["players"] = await RandomMapsTogetherPlayerScore.get_top_20_players(self.game_score.id)
+        data["players"] = await RMTPlayerScore.get_top_20_players(self.game_score.id)
         if self.game.app.map_handler.active_map.uid != self.game.app.map_handler.hub_map:
             data["time_left"] = format_time(
                 int((self.game.game_state.time_left - self.game.game_state.round_timer.current_round) * 1000),
