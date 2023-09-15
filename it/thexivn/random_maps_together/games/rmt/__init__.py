@@ -86,7 +86,6 @@ class RMTGame(Game):
                 self.config.skip_penalty_seconds * self.game_state.penalty_skips # type: ignore[attr-defined]
         self.game_state.round_timer.stop_timer()
         await self.config.update_time_left()
-        self.game_state.round_timer.stop_timer()
         if self.game_state.time_left == 0 and self.score.medal_sum:
             self.score.total_time = self.game_state.round_timer.total_time
             await self.score.save()
