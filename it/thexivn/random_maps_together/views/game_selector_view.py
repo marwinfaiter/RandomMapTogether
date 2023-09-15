@@ -1,6 +1,6 @@
 import logging
 import time
-from dataclasses import fields
+from attrs import fields
 from pyplanet.views.generics.widget import WidgetView
 from pyplanet.apps.core.maniaplanet.models import Player
 from ..models.enums.game_modes import GameModes

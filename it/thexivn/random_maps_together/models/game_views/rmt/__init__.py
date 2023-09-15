@@ -1,5 +1,4 @@
 from attrs import define, field
-from typing import Optional
 
 from .. import GameViews
 from ....views.rmt.settings import RandomMapsTogetherSettingsView
