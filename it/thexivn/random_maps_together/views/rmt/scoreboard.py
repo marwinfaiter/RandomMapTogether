@@ -42,7 +42,7 @@ class RandomMapsTogetherScoreBoardView(TemplateView):
             data["total_played_time"] = str(self.game.game_state.round_timer)
         else:
             data["time_left"] = format_time(0, hide_milliseconds=True)
-            data["total_played_time"] = format_time(self.game_score.total_time, hide_milliseconds=True)
+            data["total_played_time"] = format_time(self.game_score.total_time * 1000, hide_milliseconds=True)
 
         data["nb_players"] = len(data["players"])
         data["scroll_max"] = max(0, data["nb_players"] * 10 - 100)
