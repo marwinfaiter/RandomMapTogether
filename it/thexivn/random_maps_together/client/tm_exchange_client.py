@@ -11,9 +11,6 @@ class TMExchangeClient:
         self.session = aiohttp.ClientSession(conn_timeout=10)
         self.map_tags: List[MapTag] = []
 
-    def __del__(self, *_args):
-        self.session.close()
-
     async def get_json(self, url, params=None):
         async with self.session.get(f"{self.base_url}{url}", params=params) as response:
             response.raise_for_status()
