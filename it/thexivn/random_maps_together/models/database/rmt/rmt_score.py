@@ -21,12 +21,12 @@ class RMTScore(TimedModel):
 
     @total_goal_medals.expression # type: ignore[no-redef]
     def total_goal_medals(cls): # pylint: disable=no-self-argument
-        return cls.player_scores.rel_model.select(
+        return cls.player_scores.rel_model.select( # pylint: disable=no-member
                 fn.SUM(
-                    cls.player_scores.rel_model.total_goal_medals
+                    cls.player_scores.rel_model.total_goal_medals # pylint: disable=no-member
                 )
             ).where(
-                cls.player_scores.rel_model.game_score_id == cls.id
+                cls.player_scores.rel_model.game_score_id == cls.id # pylint: disable=no-member
             )
 
     @hybrid_property
@@ -38,12 +38,12 @@ class RMTScore(TimedModel):
 
     @total_skip_medals.expression # type: ignore[no-redef]
     def total_skip_medals(cls): # pylint: disable=no-self-argument
-        return cls.player_scores.rel_model.select(
+        return cls.player_scores.rel_model.select( # pylint: disable=no-member
                 fn.SUM(
-                    cls.player_scores.rel_model.total_skip_medals
+                    cls.player_scores.rel_model.total_skip_medals # pylint: disable=no-member
                 )
             ).where(
-                cls.player_scores.rel_model.game_score_id == cls.id
+                cls.player_scores.rel_model.game_score_id == cls.id # pylint: disable=no-member
             )
 
     @hybrid_property
@@ -55,12 +55,12 @@ class RMTScore(TimedModel):
 
     @medal_sum.expression # type: ignore[no-redef]
     def medal_sum(cls): # pylint: disable=no-self-argument
-        return cls.player_scores.rel_model.select(
+        return cls.player_scores.rel_model.select( # pylint: disable=no-member
                 fn.SUM(
-                    cls.player_scores.rel_model.medal_sum
+                    cls.player_scores.rel_model.medal_sum # pylint: disable=no-member
                 )
             ).where(
-                cls.player_scores.rel_model.game_score_id == cls.id
+                cls.player_scores.rel_model.game_score_id == cls.id # pylint: disable=no-member
             )
 
     @hybrid_property
@@ -91,5 +91,5 @@ class RMTScore(TimedModel):
                 )
             )
             &
-            (cls.player_scores.rel_model.game_score_id == cls.id)
+            (cls.player_scores.rel_model.game_score_id == cls.id) # pylint: disable=no-member
         ))
