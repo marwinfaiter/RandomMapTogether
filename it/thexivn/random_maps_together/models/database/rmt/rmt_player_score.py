@@ -21,7 +21,6 @@ class RMTPlayerScore(TimedModel):
     total_skip_medals = IntegerField(default=0)
 
     class Meta:
-        aka = "randommapstogetherplayerscore"
         indexes = (
             (("game_score", "player"), True),
         )

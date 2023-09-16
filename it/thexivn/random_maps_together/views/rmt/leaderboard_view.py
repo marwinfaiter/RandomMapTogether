@@ -113,8 +113,9 @@ class LeaderboardView(ManualListView): # pylint: disable=duplicate-code
                 RMTPlayerScore,
             ).where(
                 RMTScore.game_mode == self.app.game.game_mode.value
-            )
-            .order_by(
+            ).group_by(
+                RMTScore
+            ).order_by(
                 RMTScore.modified_player_settings,
                 RMTScore.total_goal_medals.desc(), # type: ignore[attr-defined] # pylint: disable=no-member
                 RMTScore.total_skip_medals.desc() # type: ignore[attr-defined] # pylint: disable=no-member

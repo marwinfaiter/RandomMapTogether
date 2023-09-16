@@ -12,9 +12,6 @@ class RMTScore(TimedModel):
     game_time_seconds = IntegerField(default=0)
     total_time: Union[int, IntegerField] = IntegerField(default=0)
 
-    class Meta:
-        aka = "randommapstogetherscore"
-
     @hybrid_property
     async def total_goal_medals(self) -> int:
         return sum(
@@ -24,7 +21,13 @@ class RMTScore(TimedModel):
 
     @total_goal_medals.expression # type: ignore[no-redef]
     def total_goal_medals(cls): # pylint: disable=no-self-argument
-        return fn.SUM(cls.player_scores.rel_model.total_goal_medals) # pylint: disable=no-member
+        return cls.player_scores.rel_model.select(
+                fn.SUM(
+                    cls.player_scores.rel_model.total_goal_medals
+                )
+            ).where(
+                cls.player_scores.rel_model.game_score_id == cls.id
+            )
 
     @hybrid_property
     async def total_skip_medals(self) -> int:
@@ -35,7 +38,13 @@ class RMTScore(TimedModel):
 
     @total_skip_medals.expression # type: ignore[no-redef]
     def total_skip_medals(cls): # pylint: disable=no-self-argument
-        return fn.SUM(cls.player_scores.rel_model.total_skip_medals) # pylint: disable=no-member
+        return cls.player_scores.rel_model.select(
+                fn.SUM(
+                    cls.player_scores.rel_model.total_skip_medals
+                )
+            ).where(
+                cls.player_scores.rel_model.game_score_id == cls.id
+            )
 
     @hybrid_property
     async def medal_sum(self) -> int:
@@ -46,7 +55,13 @@ class RMTScore(TimedModel):
 
     @medal_sum.expression # type: ignore[no-redef]
     def medal_sum(cls): # pylint: disable=no-self-argument
-        return fn.SUM(cls.player_scores.rel_model.medal_sum) # pylint: disable=no-member
+        return cls.player_scores.rel_model.select(
+                fn.SUM(
+                    cls.player_scores.rel_model.medal_sum
+                )
+            ).where(
+                cls.player_scores.rel_model.game_score_id == cls.id
+            )
 
     @hybrid_property
     async def modified_player_settings(self) -> bool:
@@ -60,16 +75,21 @@ class RMTScore(TimedModel):
 
     @modified_player_settings.expression # type: ignore[no-redef]
     def modified_player_settings(cls) -> bool: # pylint: disable=no-self-argument
-        return fn.EXISTS(cls.player_scores.rel_model.select().where( # pylint: disable=no-member
+        return fn.EXISTS(
+            cls.player_scores.rel_model.select().where( # pylint: disable=no-member
             (
-                cls.player_scores.rel_model.goal_medal.is_null(False) # pylint: disable=no-member
-                &
-                cls.player_scores.rel_model.goal_medal != cls.goal_medal # pylint: disable=no-member
+                (
+                    cls.player_scores.rel_model.goal_medal.is_null(False) # pylint: disable=no-member
+                    &
+                    (cls.player_scores.rel_model.goal_medal != cls.goal_medal) # pylint: disable=no-member
+                )
+                |
+                (
+                    cls.player_scores.rel_model.skip_medal.is_null(False) # pylint: disable=no-member
+                    &
+                    (cls.player_scores.rel_model.skip_medal != cls.skip_medal) # pylint: disable=no-member
+                )
             )
-            |
-            (
-                cls.player_scores.rel_model.skip_medal.is_null(False) # pylint: disable=no-member
-                &
-                cls.player_scores.rel_model.skip_medal != cls.skip_medal # pylint: disable=no-member
-            )
+            &
+            (cls.player_scores.rel_model.game_score_id == cls.id)
         ))
