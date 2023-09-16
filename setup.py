@@ -45,7 +45,6 @@ setup(
     install_requires=[
         'pyplanet',
         'aiohttp',
-        "async-timeout<4.0",
         "Markupsafe<2.1.0",
         "attrs",
         "cattrs",
