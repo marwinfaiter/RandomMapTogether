@@ -32,6 +32,7 @@ services:
       - /bin/sh
       - -c
       - |
+        pip install -U pyplanet
         pip install -e /src
         exec /pyplanet/server/manage.py start
     environment:
