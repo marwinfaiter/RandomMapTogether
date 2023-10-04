@@ -56,7 +56,7 @@ class RMTPlayerScore(TimedModel):
         )
 
     async def increase_medal_count(self, medal: Medals):
-        game_score = self.game_score if isinstance(self.game_score, RMTScore) else await self.game_score
+        game_score = self.game_score if isinstance(self.game_score, RMTScore) else await self.game_score # type: ignore[attr-defined]
 
         if self.goal_medal:
             if medal.name == self.goal_medal:
