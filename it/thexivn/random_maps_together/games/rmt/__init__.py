@@ -84,8 +84,9 @@ class RMTGame(Game):
         if self.game_mode == GameModes.RANDOM_MAP_SURVIVAL:
             self.config.game_time_seconds += \
                 self.config.skip_penalty_seconds * self.game_state.penalty_skips # type: ignore[attr-defined]
-        self.game_state.round_timer.stop_timer()
-        await self.config.update_time_left()
+        if not self.game_state.is_paused:
+            self.game_state.round_timer.stop_timer()
+            await self.config.update_time_left()
         if self.game_state.time_left == 0 and await self.score.medal_sum:
             self.score.total_time = self.game_state.round_timer.total_time
             await self.score.save()
