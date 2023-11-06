@@ -27,8 +27,8 @@ class RandomMapsTogetherScoreBoardView(TemplateView):
     async def get_context_data(self):
         data = await super().get_context_data()
         data["game"] = self.game
-        data["total_goal_medals"] = await self.game_score.total_goal_medals # type: ignore[misc]
-        data["total_skip_medals"] = await self.game_score.total_skip_medals # type: ignore[misc]
+        data["total_goal_medals"] = await self.game_score.total_goal_medals
+        data["total_skip_medals"] = await self.game_score.total_skip_medals
         data["goal_medal_substyle"] = MedalSubstyle[self.game_score.goal_medal].value # type: ignore[misc]
         data["skip_medal_substyle"] = MedalSubstyle[self.game_score.skip_medal].value # type: ignore[misc]
         data["medal_substyle"] = MedalSubstyle

@@ -86,7 +86,7 @@ class RMTGame(Game):
                 self.config.skip_penalty_seconds * self.game_state.penalty_skips # type: ignore[attr-defined]
         self.game_state.round_timer.stop_timer()
         await self.config.update_time_left()
-        if self.game_state.time_left == 0 and await self.score.medal_sum: # type: ignore[misc]
+        if self.game_state.time_left == 0 and await self.score.medal_sum:
             self.score.total_time = self.game_state.round_timer.total_time
             await self.score.save()
         else:
@@ -137,7 +137,7 @@ class RMTGame(Game):
         if not self.game_state.current_map_completed or self.game_state.time_left == 0:
             logger.info("%s finished successfully", self.game_mode.value)
             await self.app.chat(
-                "Challenge completed" # type: ignore[misc]
+                "Challenge completed"
                 f" {self.config.goal_medal.name}: {await self.score.total_goal_medals}"
                 f" {self.config.skip_medal.name}: {await self.score.total_skip_medals}"
             )
