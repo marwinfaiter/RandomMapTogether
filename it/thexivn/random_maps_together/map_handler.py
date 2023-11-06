@@ -46,7 +46,6 @@ class MapHandler:
         logger.info('Trying to load next map ...')
         self.map_is_loading = True
         random_map = self.next_map or await self.app.game.config.map_generator.get_map()
-        self.next_map = None
 
         map_to_remove = await self.app.instance.gbx("GetCurrentMapInfo")
 
@@ -69,6 +68,7 @@ class MapHandler:
         self.app.game.config.map_generator.played_maps.add(random_map)
 
         self.map_is_loading = False
+        self.next_map = None
         logger.info('map loaded')
 
     async def pre_load_next_map(self):
