@@ -127,6 +127,9 @@ class RMTGame(Game):
         self.game_state.round_timer.start_timer()
 
     async def map_end_event(self, *_args, **_kwargs):
+        if self.game_state.is_paused:
+            logger.info("Restarting because of unpause")
+            return
         logger.info("MAP end")
         await self.set_original_scoreboard_visible(True)
         self.game_state.skip_medal_player = None
@@ -283,18 +286,19 @@ class RMTGame(Game):
 
     @check_player_allowed_to_manage_running_game
     async def command_toggle_pause(self, *_args, **_kwargs):
-        self.game_state.is_paused ^= True
         if self.game_state.is_paused:
+            self.app.mode_settings[S_TIME_LIMIT] = round(self.game_state.time_left)
+            await self.app.mode_manager.update_settings(self.app.mode_settings)
+            await self.app.map_handler.restart_map()
+
+        else:
             self.game_state.round_timer.stop_timer()
             self.game_state.time_left -= self.game_state.round_timer.last_round
             self.app.mode_settings[S_TIME_LIMIT] = 0
             await self.app.mode_manager.update_settings(self.app.mode_settings)
-        else:
-            self.app.mode_settings[S_TIME_LIMIT] = round(self.game_state.time_left)
-            await self.app.mode_manager.update_settings(self.app.mode_settings)
-            await self.app.map_handler.restart_map()
         await self.views.ingame_view.display()
-        logging.info("Set paused: %s", str(self.game_state.is_paused))
+        self.game_state.is_paused ^= True
+        logger.info("Set paused: %s", str(self.game_state.is_paused))
 
     async def respawn_player(self, player: Player):
         # first, force mode 1 (spectator), then force mode 2 (player), then force mode 0 (user selectable)
