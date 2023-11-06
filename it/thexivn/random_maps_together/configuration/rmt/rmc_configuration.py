@@ -22,7 +22,6 @@ class RandomMapChallengeConfiguration(RandomMapsTogetherConfiguration):
             self.infinite_free_skips,
         ])
 
-    @check_player_allowed_to_change_game_settings
     async def set_game_time_seconds(self, player: Player, *_args, **_kwargs): # pylint: disable=arguments-differ
         buttons = [
             {"name": "30m", "value": 1800},

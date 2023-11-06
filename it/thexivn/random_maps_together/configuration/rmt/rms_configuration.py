@@ -32,7 +32,6 @@ class RandomMapSurvivalConfiguration(RandomMapsTogetherConfiguration):
     def can_skip_map(self):
         return True
 
-    @check_player_allowed_to_change_game_settings
     async def set_game_time_seconds(self, player: Player, *_args, **_kwargs): # pylint: disable=arguments-differ
         buttons = [
             {"name": "15m", "value": 900},
