@@ -296,8 +296,8 @@ class RMTGame(Game):
             self.game_state.time_left -= self.game_state.round_timer.last_round
             self.app.mode_settings[S_TIME_LIMIT] = 0
             await self.app.mode_manager.update_settings(self.app.mode_settings)
-        await self.views.ingame_view.display()
         self.game_state.is_paused ^= True
+        await self.views.ingame_view.display()
         logger.info("Set paused: %s", str(self.game_state.is_paused))
 
     async def respawn_player(self, player: Player):
