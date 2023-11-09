@@ -1,12 +1,10 @@
 import logging
-
 import random
 from typing import Set
 
-
-from . import MapGenerator, MapGeneratorType
 from ..models.api_response.api_map_info import APIMapInfo
 from ..views.custom_maps_view import CustomMapsView
+from . import MapGenerator, MapGeneratorType
 
 logger = logging.getLogger(__name__)
 

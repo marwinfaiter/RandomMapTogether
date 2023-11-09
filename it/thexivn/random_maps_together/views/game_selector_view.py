@@ -1,14 +1,16 @@
 import logging
 import time
+
 from attrs import fields
-from pyplanet.views.generics.widget import WidgetView
 from pyplanet.apps.core.maniaplanet.models import Player
-from ..models.enums.game_modes import GameModes
-from ..models.enums.game_script import GameScript
+from pyplanet.views.generics.widget import WidgetView
+
+from ..configuration import check_player_allowed_to_change_game_settings
+from ..games.chess import ChessGame
 from ..games.rmt.random_map_challenge_game import RandomMapChallengeGame
 from ..games.rmt.random_map_survival_game import RandomMapSurvivalGame
-from ..games.chess import ChessGame
-from ..configuration import check_player_allowed_to_change_game_settings
+from ..models.enums.game_modes import GameModes
+from ..models.enums.game_script import GameScript
 from ..views.player_prompt_view import PlayerPromptView
 
 logger = logging.getLogger(__name__)

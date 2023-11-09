@@ -1,11 +1,10 @@
 import asyncio
 import logging
 
-from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.core.maniaplanet import callbacks as mania_callback
+from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.core.trackmania import callbacks as tm_callbacks
 
-from .. import Game
 from ...configuration.chess import ChessConfiguration
 from ...constants import S_FORCE_LAPS_NB
 from ...map_generator import MapGenerator
@@ -29,6 +28,7 @@ from ...views.chess.board import ChessBoardView
 from ...views.chess.ingame import ChessIngameView
 from ...views.chess.settings import ChessSettingsView
 from ...views.player_prompt_view import PlayerPromptView
+from .. import Game
 
 logger = logging.getLogger(__name__)
 

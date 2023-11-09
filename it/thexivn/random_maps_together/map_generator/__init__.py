@@ -1,6 +1,6 @@
-from enum import Enum
 import logging
-from typing import Set, TYPE_CHECKING
+from enum import Enum
+from typing import TYPE_CHECKING, Set
 
 from ..models.api_response.api_map_info import APIMapInfo
 

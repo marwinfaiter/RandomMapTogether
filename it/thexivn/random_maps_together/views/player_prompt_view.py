@@ -1,8 +1,9 @@
-import re
-import logging
 import inspect
-from pyplanet.views.generics.alert import AlertView
+import logging
+import re
+
 from pyplanet.apps.core.maniaplanet.models import Player
+from pyplanet.views.generics.alert import AlertView
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,9 @@
 import logging
+
 from pyplanet.views.generics.widget import WidgetView
 
 from ...models.enums.medal_urls import MedalSubstyle
+
 # pylint: disable=duplicate-code
 logger = logging.getLogger(__name__)
 

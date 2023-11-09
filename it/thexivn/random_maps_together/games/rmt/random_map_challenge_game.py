@@ -1,13 +1,12 @@
 import asyncio
 
-
-
-from . import RMTGame
-from ...models.enums.game_modes import GameModes
 from ...configuration.rmt.rmc_configuration import RandomMapChallengeConfiguration
-from ...views.rmt.random_map_challenge.settings import RandomMapChallengeSettingsView
-from ...views.rmt.random_map_challenge.ingame import RandomMapChallengeIngameView
 from ...map_generator import MapGenerator
+from ...models.enums.game_modes import GameModes
+from ...views.rmt.random_map_challenge.ingame import RandomMapChallengeIngameView
+from ...views.rmt.random_map_challenge.settings import RandomMapChallengeSettingsView
+from . import RMTGame
+
 
 class RandomMapChallengeGame(RMTGame):
     game_mode = GameModes.RANDOM_MAP_CHALLENGE

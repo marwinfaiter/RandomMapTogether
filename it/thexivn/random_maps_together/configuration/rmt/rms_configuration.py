@@ -1,8 +1,10 @@
 from attrs import define
 from pyplanet.apps.core.maniaplanet.models import Player
-from . import RandomMapsTogetherConfiguration
+
 from ...configuration import check_player_allowed_to_change_game_settings
 from ...views.player_prompt_view import PlayerPromptView
+from . import RandomMapsTogetherConfiguration
+
 
 @define
 class RandomMapSurvivalConfiguration(RandomMapsTogetherConfiguration):

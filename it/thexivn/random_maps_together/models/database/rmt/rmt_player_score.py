@@ -1,12 +1,12 @@
 import peeweedbevolve as _
-
-from peewee import CharField, IntegerField, ForeignKeyField
+from peewee import CharField, ForeignKeyField, IntegerField
 from playhouse.hybrid import hybrid_property
-from pyplanet.core.db import TimedModel
 from pyplanet.apps.core.maniaplanet.models import Player
+from pyplanet.core.db import TimedModel
 
-from .rmt_score import RMTScore
 from ...enums.medals import Medals
+from .rmt_score import RMTScore
+
 
 class RMTPlayerScore(TimedModel):
     game_score = ForeignKeyField(RMTScore, related_name="player_scores")

@@ -1,7 +1,10 @@
-from attrs import define
 from typing import Optional
+
+from attrs import define
 from pyplanet.apps.core.maniaplanet.models import Player
+
 from ..enums.medals import Medals
+
 
 @define
 class PlayerConfiguration:

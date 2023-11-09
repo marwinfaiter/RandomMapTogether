@@ -1,9 +1,11 @@
-import aiohttp
 from typing import List
+
+import aiohttp
 
 from ..models.api_response.api_map_info import APIMapInfo
 from ..models.api_response.api_map_pack_info import APIMapPackInfo
 from ..models.map_tag import MapTag
+
 
 class TMExchangeClient:
     def __init__(self):

@@ -1,5 +1,6 @@
 from attrs import define
 
+
 @define(frozen=True)
 class APIMapPackInfo:
     id: int

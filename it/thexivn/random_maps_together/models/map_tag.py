@@ -1,6 +1,6 @@
-from attrs import define
-
 import re
+
+from attrs import define
 
 
 @define(frozen=True)

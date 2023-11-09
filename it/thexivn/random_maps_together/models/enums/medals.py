@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Medals(int, Enum):
     AUTHOR = 4
     GOLD = 3

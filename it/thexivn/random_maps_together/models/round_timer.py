@@ -1,7 +1,8 @@
-from attrs import define
-from typing import Union
-import time
 import logging
+import time
+from typing import Union
+
+from attrs import define
 from pyplanet.utils.times import format_time
 
 logger = logging.getLogger(__name__)

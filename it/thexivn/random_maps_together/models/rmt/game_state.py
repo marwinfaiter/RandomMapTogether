@@ -1,9 +1,11 @@
-from attrs import define, field
 from typing import Optional, Union
 
+from attrs import define, field
 from pyplanet.apps.core.maniaplanet.models import Player
+
 from ..enums.medals import Medals
 from ..round_timer import RoundTimer
+
 
 @define
 class GameState:

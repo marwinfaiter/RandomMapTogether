@@ -4,11 +4,12 @@ import logging
 from typing import Optional
 
 from pyplanet.apps.core.maniaplanet.models import Map
-from pyplanet.contrib.map import MapManager
 from pyplanet.core.storage.storage import Storage
 
-from .models.enums.medals import Medals
+from pyplanet.contrib.map import MapManager
+
 from .models.api_response.api_map_info import APIMapInfo
+from .models.enums.medals import Medals
 
 logger = logging.getLogger(__name__)
 

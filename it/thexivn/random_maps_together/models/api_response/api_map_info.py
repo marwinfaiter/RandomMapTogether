@@ -1,9 +1,10 @@
-from attrs import define
-from typing import Tuple, List
 from datetime import date, datetime
+from typing import List, Tuple
 
+from attrs import define
+
+from ...constants import ICE_CHANGE_DATE, TAG_BOBSLEIGH, TAG_ICE
 from ..map_tag import MapTag
-from ...constants import TAG_BOBSLEIGH, TAG_ICE, ICE_CHANGE_DATE
 
 
 @define(frozen=True)

@@ -1,10 +1,12 @@
 import logging
-from typing import List, Dict
+from typing import Dict, List
+
 from pyplanet.apps.config import AppConfig
 from pyplanet.views.generics.list import ManualListView
 
-from ...models.database.rmt.rmt_score import RMTScore
 from ...models.database.rmt.rmt_player_score import RMTPlayerScore
+from ...models.database.rmt.rmt_score import RMTScore
+
 # pylint: disable=duplicate-code
 logger = logging.getLogger(__name__)
 

@@ -1,10 +1,11 @@
 import logging
-from typing import List, Dict
+from typing import Dict, List
 
-from pyplanet.views.generics.list import ManualListView
 from pyplanet.apps.config import AppConfig
+from pyplanet.views.generics.list import ManualListView
 
 from .player_prompt_view import PlayerPromptView
+
 # pylint: disable=duplicate-code
 logger = logging.getLogger(__name__)
 

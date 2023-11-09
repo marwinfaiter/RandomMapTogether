@@ -1,4 +1,5 @@
 import logging
+
 from pyplanet.views.generics.widget import WidgetView
 
 logger = logging.getLogger(__name__)

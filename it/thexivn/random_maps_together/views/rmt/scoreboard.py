@@ -1,13 +1,13 @@
 import asyncio
 import logging
 
-from pyplanet.views import TemplateView
 from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.utils.times import format_time
+from pyplanet.views import TemplateView
 
-from ...models.enums.medal_urls import MedalSubstyle
 from ...models.database.rmt.rmt_player_score import RMTPlayerScore
 from ...models.database.rmt.rmt_score import RMTScore
+from ...models.enums.medal_urls import MedalSubstyle
 
 logger = logging.getLogger(__name__)
 

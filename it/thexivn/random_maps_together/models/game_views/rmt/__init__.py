@@ -1,9 +1,10 @@
 from attrs import define, field
 
-from .. import GameViews
-from ....views.rmt.settings import RandomMapsTogetherSettingsView
 from ....views.rmt.ingame import RandomMapsTogetherIngameView
 from ....views.rmt.scoreboard import RandomMapsTogetherScoreBoardView
+from ....views.rmt.settings import RandomMapsTogetherSettingsView
+from .. import GameViews
+
 
 @define
 class RandomMapsTogetherViews(GameViews):

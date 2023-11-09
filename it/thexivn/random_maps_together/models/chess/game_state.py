@@ -1,9 +1,8 @@
-from attrs import define, field
-from typing import Callable, List, Optional
 import logging
+from typing import Callable, List, Optional
 
-from ..enums.team import Team
-from ..enums.chess_state import ChessState
+from attrs import define, field
+
 from ..chess.piece import Piece
 from ..chess.piece.bishop import Bishop
 from ..chess.piece.king import King
@@ -12,6 +11,8 @@ from ..chess.piece.pawn import Pawn
 from ..chess.piece.queen import Queen
 from ..chess.piece.rook import Rook
 from ..database.chess.chess_move import ChessMove
+from ..enums.chess_state import ChessState
+from ..enums.team import Team
 
 logger = logging.getLogger(__name__)
 

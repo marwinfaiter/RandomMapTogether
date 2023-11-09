@@ -1,9 +1,11 @@
-from attrs import define
 from typing import Optional
 
-from ...enums.team import Team
-from ...database.chess.chess_piece import ChessPiece
+from attrs import define
+
 from ...database.chess.chess_move import ChessMove
+from ...database.chess.chess_piece import ChessPiece
+from ...enums.team import Team
+
 
 @define
 class Piece:

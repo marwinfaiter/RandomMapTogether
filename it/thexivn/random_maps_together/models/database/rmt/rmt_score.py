@@ -1,9 +1,10 @@
-import peeweedbevolve as _
+from typing import Union
 
+import peeweedbevolve as _
 from peewee import CharField, IntegerField, fn
 from playhouse.hybrid import hybrid_property
-from typing import Union
 from pyplanet.core.db import TimedModel
+
 
 class RMTScore(TimedModel):
     game_mode = CharField(max_length=50)

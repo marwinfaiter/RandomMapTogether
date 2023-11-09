@@ -1,9 +1,9 @@
 import peeweedbevolve as _
-
-from peewee import IntegerField, ForeignKeyField
+from peewee import ForeignKeyField, IntegerField
 from pyplanet.core.db import TimedModel
 
 from .chess_piece import ChessPiece
+
 
 class ChessMove(TimedModel):
     chess_piece = ForeignKeyField(ChessPiece)

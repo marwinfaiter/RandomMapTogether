@@ -1,6 +1,7 @@
 import logging
-from ..settings import RandomMapsTogetherSettingsView
+
 from ....configuration.rmt.rmc_configuration import RandomMapChallengeConfiguration
+from ..settings import RandomMapsTogetherSettingsView
 
 logger = logging.getLogger(__name__)
 

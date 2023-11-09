@@ -1,8 +1,9 @@
 import logging
-from typing import List, Dict
-from pyplanet.views.generics.list import ManualListView
+from typing import Dict, List
+
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet.models import Player
+from pyplanet.views.generics.list import ManualListView
 
 from ...configuration import check_player_allowed_to_change_game_settings
 from ...models.enums.team import Team

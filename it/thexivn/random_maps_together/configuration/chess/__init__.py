@@ -1,11 +1,13 @@
-from attrs import define, field
 from typing import Dict
+
+from attrs import define, field
 from pyplanet.apps.core.maniaplanet.models import Player
 
-from .. import Configuration
 from ...map_generator import MapGenerator
 from ...models.chess.player_configuration import PlayerConfiguration
 from ...views.chess.player_config_view import PlayerConfigView
+from .. import Configuration
+
 
 @define
 class ChessConfiguration(Configuration):
@@ -20,6 +22,6 @@ class ChessConfiguration(Configuration):
                     False
                 )
 
-    async def display_player_settings(self, player, *_args, **_kwargs):
+    async def display_player_settings(self, player: Player, *_args, **_kwargs):
         self.update_player_configs()
         await PlayerConfigView(self.app).display(player)

@@ -1,14 +1,16 @@
 import logging
-from typing import List, Dict
+from typing import Dict, List
+
 from peewee import DoesNotExist
-from pyplanet.views.generics.list import ManualListView
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet.models import Player
+from pyplanet.views.generics.list import ManualListView
 
-from ...models.enums.medals import Medals
-from ...models.database.rmt.rmt_player_score import RMTPlayerScore
-from ..player_prompt_view import PlayerPromptView
 from ...configuration import check_player_allowed_to_change_game_settings
+from ...models.database.rmt.rmt_player_score import RMTPlayerScore
+from ...models.enums.medals import Medals
+from ..player_prompt_view import PlayerPromptView
+
 # pylint: disable=duplicate-code
 logger = logging.getLogger(__name__)
 

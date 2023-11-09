@@ -1,9 +1,10 @@
 from attrs import define, field
 
-from .. import GameViews
-from ....views.chess.settings import ChessSettingsView
-from ....views.chess.ingame import ChessIngameView
 from ....views.chess.board import ChessBoardView
+from ....views.chess.ingame import ChessIngameView
+from ....views.chess.settings import ChessSettingsView
+from .. import GameViews
+
 
 @define
 class ChessViews(GameViews):

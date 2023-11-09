@@ -1,10 +1,11 @@
-import peeweedbevolve as _
-
-from peewee import CharField, IntegerField, ForeignKeyField, BooleanField
-from pyplanet.core.db import TimedModel
 from typing import Union
 
+import peeweedbevolve as _
+from peewee import BooleanField, CharField, ForeignKeyField, IntegerField
+from pyplanet.core.db import TimedModel
+
 from .chess_score import ChessScore
+
 
 class ChessPiece(TimedModel):
     game_score: Union[ForeignKeyField, int] = ForeignKeyField(ChessScore)

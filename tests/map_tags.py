@@ -1,5 +1,6 @@
 from it.thexivn.random_maps_together.models.map_tag import MapTag
 
+
 class TestMapTags:
     def expected_map_tags_as_objects(self):
         return [MapTag.from_json(map_tag_json) for map_tag_json in self.expected_map_tags()]

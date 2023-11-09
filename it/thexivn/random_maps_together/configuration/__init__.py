@@ -1,15 +1,15 @@
-from attrs import define
 from typing import TYPE_CHECKING, Any
 
-from pyplanet.apps.core.maniaplanet.models import Player
+from attrs import define
 from pyplanet.apps.config import AppConfig
+from pyplanet.apps.core.maniaplanet.models import Player
 
+from ..games import Game
 from ..map_generator import MapGenerator, MapGeneratorType
 from ..map_generator.custom import Custom
 from ..map_generator.totd import TOTD
-from ..views.rmt.leaderboard_view import LeaderboardView
 from ..settings import MIN_PLAYER_LEVEL_SETTINGS
-from ..games import Game
+from ..views.rmt.leaderboard_view import LeaderboardView
 
 if TYPE_CHECKING:
     from .. import RandomMapsTogetherApp

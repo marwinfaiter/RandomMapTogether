@@ -1,5 +1,7 @@
 from attrs import define
+
 from ..enums.team import Team
+
 
 @define
 class MapScore:

@@ -1,9 +1,10 @@
-from attrs import define
 import logging
 
+from attrs import define
 from pyplanet.apps.core.maniaplanet.models import Player
-from . import RandomMapsTogetherConfiguration
+
 from ...configuration import check_player_allowed_to_change_game_settings
+from . import RandomMapsTogetherConfiguration
 
 logger = logging.getLogger(__name__)
 

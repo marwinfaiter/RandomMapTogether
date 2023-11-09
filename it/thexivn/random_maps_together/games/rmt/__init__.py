@@ -1,24 +1,22 @@
 import asyncio
 import logging
 
-from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.core.maniaplanet import callbacks as mania_callback
+from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.core.trackmania import callbacks as tm_callbacks
 from pyplanet.utils.times import format_time
 
-
-from .. import Game
 from ...configuration import check_player_allowed_to_manage_running_game
-from ...models.rmt.game_state import GameState
-from ...models.enums.game_script import GameScript
-from ...models.database.rmt.rmt_score import RMTScore
-from ...models.database.rmt.rmt_player_score import RMTPlayerScore
-from ...models.game_views.rmt import RandomMapsTogetherViews
-from ...models.enums.game_modes import GameModes
-from ...views.rmt.scoreboard import RandomMapsTogetherScoreBoardView
-from ...constants import BIG_MESSAGE, RACE_SCORES_TABLE, S_FORCE_LAPS_NB, S_TIME_LIMIT
 from ...configuration.rmt import RandomMapsTogetherConfiguration
-
+from ...constants import BIG_MESSAGE, RACE_SCORES_TABLE, S_FORCE_LAPS_NB, S_TIME_LIMIT
+from ...models.database.rmt.rmt_player_score import RMTPlayerScore
+from ...models.database.rmt.rmt_score import RMTScore
+from ...models.enums.game_modes import GameModes
+from ...models.enums.game_script import GameScript
+from ...models.game_views.rmt import RandomMapsTogetherViews
+from ...models.rmt.game_state import GameState
+from ...views.rmt.scoreboard import RandomMapsTogetherScoreBoardView
+from .. import Game
 
 _lock = asyncio.Lock()
 

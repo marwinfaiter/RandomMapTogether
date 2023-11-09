@@ -1,11 +1,11 @@
-import logging
 import asyncio
+import logging
 from typing import Optional
 
-from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.config import AppConfig
+from pyplanet.apps.core.maniaplanet.models import Player
+
 from ..models.game_views import GameViews
-from ..models.enums.game_modes import GameModes
 
 logger = logging.getLogger(__name__)
 

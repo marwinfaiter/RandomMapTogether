@@ -1,12 +1,14 @@
+import json
 from unittest import IsolatedAsyncioTestCase
-from mockito import when, unstub, KWARGS
+
+import aiohttp
 from it.thexivn.random_maps_together.client.tm_exchange_client import TMExchangeClient
 from it.thexivn.random_maps_together.models.api_response.api_map_info import APIMapInfo
 from it.thexivn.random_maps_together.models.api_response.api_map_pack_info import APIMapPackInfo
-import aiohttp
-import json
+from mockito import KWARGS, unstub, when
 
 from ..map_tags import TestMapTags
+
 
 class MockedResponse:
     def __init__(self, data, status):

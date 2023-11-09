@@ -1,15 +1,17 @@
-from attrs import define, field
 from typing import Dict
+
+from attrs import define, field
 from pyplanet.apps.core.maniaplanet.models import Player
 
-from .. import Configuration
-from ...models.enums.medals import Medals
-from ...map_generator import MapGenerator
-from ...models.rmt.player_configuration import PlayerConfiguration
 from ...configuration import check_player_allowed_to_change_game_settings
-from ...views.rmt.player_config_view import PlayerConfigView
-from ...views.rmt.leaderboard_view import LeaderboardView
+from ...map_generator import MapGenerator
+from ...models.enums.medals import Medals
+from ...models.rmt.player_configuration import PlayerConfiguration
 from ...views.player_prompt_view import PlayerPromptView
+from ...views.rmt.leaderboard_view import LeaderboardView
+from ...views.rmt.player_config_view import PlayerConfigView
+from .. import Configuration
+
 
 @define
 class RandomMapsTogetherConfiguration(Configuration):

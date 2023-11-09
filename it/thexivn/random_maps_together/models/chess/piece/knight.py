@@ -1,5 +1,6 @@
-from attrs import define
 from typing import Tuple
+
+from attrs import define
 
 from . import Piece
 

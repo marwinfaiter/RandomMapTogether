@@ -1,8 +1,7 @@
 import logging
 
-
-from ..ingame import RandomMapsTogetherIngameView
 from ....models.enums.game_modes import GameModes
+from ..ingame import RandomMapsTogetherIngameView
 
 logger = logging.getLogger(__name__)
 
