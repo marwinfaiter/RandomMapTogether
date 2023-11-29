@@ -7,6 +7,7 @@ from pyplanet.apps.core.maniaplanet.models import Map
 from pyplanet.core.storage.storage import Storage
 
 from pyplanet.contrib.map import MapManager
+from pyplanet.contrib.map.exceptions import MapNotFound
 
 from .models.api_response.api_map_info import APIMapInfo
 from .models.enums.medals import Medals
@@ -90,7 +91,15 @@ class MapHandler:
             logger.info('HUB map was already loaded')
             await self._map_manager.set_current_map(self.hub_map)
         else:
-            await self._map_manager.add_map(f"{self.hub_map}.Map.Gbx", insert=False, save_matchsettings=False)
+            try:
+                await self._map_manager.add_map(f"{self.hub_map}.Map.Gbx", insert=False, save_matchsettings=False)
+            except MapNotFound:
+                await self._map_manager.upload_map(
+                    io.BytesIO(await self.app.tmx_client.get_map_content(self._hub_id)),
+                    f'{self.hub_map}.Map.Gbx',
+                    overwrite=True
+                )
+
             await self._map_manager.update_list(full_update=True, detach_fks=True)
             await self._map_manager.set_current_map(self.hub_map)
 
