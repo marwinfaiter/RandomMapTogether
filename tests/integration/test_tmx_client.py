@@ -1,11 +1,11 @@
 import json
 from unittest import IsolatedAsyncioTestCase
 
-import aiohttp
+from aiohttp import ClientSession
 from it.thexivn.random_maps_together.client.tm_exchange_client import TMExchangeClient
 from it.thexivn.random_maps_together.models.api_response.api_map_info import APIMapInfo
 from it.thexivn.random_maps_together.models.api_response.api_map_pack_info import APIMapPackInfo
-from mockito import KWARGS, unstub, when
+from mockito import KWARGS, expect, unstub, verifyNoUnwantedInteractions
 
 from ..map_tags import TestMapTags
 
@@ -37,10 +37,11 @@ class TestTMXClient(IsolatedAsyncioTestCase):
         self.test_map_tags = TestMapTags()
 
     def tearDown(self):
+        verifyNoUnwantedInteractions()
         unstub()
 
     async def test_get_tags(self):
-        when(aiohttp.ClientSession).get(
+        expect(ClientSession, times=1).get(
             f"{self.base_url}api/tags/gettags", **KWARGS
         ).thenReturn(
             MockedResponse(self.test_map_tags.expected_map_tags(), 200)
@@ -48,12 +49,12 @@ class TestTMXClient(IsolatedAsyncioTestCase):
         assert await self.tmx_client.get_tags() == self.test_map_tags.expected_map_tags_as_objects()
 
     async def test_search_random_map(self):
-        when(aiohttp.ClientSession).get(
+        expect(ClientSession, times=1).get(
             f"{self.base_url}api/tags/gettags", **KWARGS
         ).thenReturn(
             MockedResponse(self.test_map_tags.expected_map_tags(), 200)
         )
-        when(aiohttp.ClientSession).get(
+        expect(ClientSession, times=1).get(
             f"{self.base_url}mapsearch2/search", **KWARGS
         ).thenReturn(
             MockedResponse(self._expected_map_search(), 200)
@@ -63,7 +64,7 @@ class TestTMXClient(IsolatedAsyncioTestCase):
         )
 
     async def test_search_mappack(self):
-        when(aiohttp.ClientSession).get(
+        expect(ClientSession, times=1).get(
             f"{self.base_url}mappacksearch/search", **KWARGS
         ).thenReturn(
             MockedResponse(self._expected_map_pack_search(), 200)
