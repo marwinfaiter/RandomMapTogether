@@ -11,8 +11,7 @@ pipeline {
         }
         stage("Run in container") {
             agent {
-                docker {
-                    image "python:3.8.15-bullseye"
+                dockerfile {
                     reuseNode true
                 }
             }
@@ -45,18 +44,17 @@ pipeline {
                         }
                     }
                 }
-                stage("Build wheel") {
+                stage("Build and publish") {
                     steps {
-                        sh "python setup.py bdist_wheel"
-                    }
-                }
-                stage("Publish wheel") {
-                    when {
-                        branch 'main'
-                    }
-                    steps {
-                        sh "python -m pip install --user twine"
-                        sh "python -m twine upload --repository-url https://nexus.buddaphest.se/repository/pypi-releases/ --u '${TWINE_CREDENTIALS_USR}' --p '${TWINE_CREDENTIALS_PSW}' dist/*"
+                        script {
+                            docker.withRegistry('https://releases.docker.buddaphest.se', 'nexus') {
+
+                                def customImage = docker.build("marwinfaiter/pyplanet:rmt-${BUILD_ID}", "--target prod .")
+
+                                customImage.push()
+                                customImage.push("rmt")
+                            }
+                        }
                     }
                 }
             }
