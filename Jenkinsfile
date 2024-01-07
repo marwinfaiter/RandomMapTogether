@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environment {
-        TWINE_CREDENTIALS = credentials("nexus")
-    }
     stages {
         stage("Clean workspace") {
             steps {
