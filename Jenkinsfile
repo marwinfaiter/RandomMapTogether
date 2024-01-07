@@ -51,7 +51,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://releases.docker.buddaphest.se', 'nexus') {
 
-                        def customImage = docker.build("marwinfaiter/pyplanet:rmt-${BUILD_ID}", "--target prod .")
+                        def customImage = docker.build("marwinfaiter/pyplanet:rmt-${BUILD_ID}")
 
                         customImage.push()
                         customImage.push("rmt")
