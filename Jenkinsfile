@@ -44,17 +44,20 @@ pipeline {
                         }
                     }
                 }
-                stage("Build and publish") {
-                    steps {
-                        script {
-                            docker.withRegistry('https://releases.docker.buddaphest.se', 'nexus') {
+            }
+        }
+        stage("Build and publish") {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://releases.docker.buddaphest.se', 'nexus') {
 
-                                def customImage = docker.build("marwinfaiter/pyplanet:rmt-${BUILD_ID}", "--target prod .")
+                        def customImage = docker.build("marwinfaiter/pyplanet:rmt-${BUILD_ID}", "--target prod .")
 
-                                customImage.push()
-                                customImage.push("rmt")
-                            }
-                        }
+                        customImage.push()
+                        customImage.push("rmt")
                     }
                 }
             }
