@@ -17,5 +17,3 @@ class TOTD(MapGenerator):
         map_pack = await self.app.tmx_client.search_random_mappack_totd()
         map_pack_tracks: List[APIMapInfo] = await self.app.tmx_client.get_mappack_tracks(map_pack.id)
         return random.choice([played_map for played_map in map_pack_tracks if played_map not in self.played_maps])  # noqa: S311
-        map_pack_tracks: List[APIMapInfo] = await self.app.tmx_client.get_mappack_tracks(map_pack.id)
-        return random.choice([played_map for played_map in map_pack_tracks if played_map not in self.played_maps])  # noqa: S311

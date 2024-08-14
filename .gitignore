@@ -15,6 +15,9 @@ build/
 # mypy
 **/.mypy_cache
 
+# ruff
+**/.ruff_cache
+
 **/.idea
 
 **/.pytest_cache
