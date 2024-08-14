@@ -69,19 +69,19 @@ class RMTPlayerScore(TimedModel):
         game_score = (
             self.game_score
             if isinstance(self.game_score, RMTScore)
-            else await self.game_score # type: ignore[attr-defined]
+            else await self.game_score
          )
 
         if self.goal_medal:
             if medal.name == self.goal_medal:
                 self.total_goal_medals += 1
-        elif medal.name == game_score.goal_medal: # pylint: disable=no-member
+        elif medal.name == game_score.goal_medal:
             self.total_goal_medals += 1
 
         if self.skip_medal:
             if medal.name == self.skip_medal:
                 self.total_skip_medals += 1
-        elif medal.name == game_score.skip_medal: # pylint: disable=no-member
+        elif medal.name == game_score.skip_medal:
             self.total_skip_medals += 1
 
         if medal == Medals.AUTHOR:
