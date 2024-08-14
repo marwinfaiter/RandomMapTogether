@@ -1,0 +1,75 @@
+line-length = 120
+indent-width = 4
+
+show-fixes = true
+
+# Files to exclude. 'extend-exclude' instead of 'exclude' to keep the defaults
+extend-exclude = []
+
+
+[lint]
+select = [
+    # Big rule sets
+    "B",    # flake8-bugbear — Various issues that are likely bugs, or can cause bugs
+    "E1",   # pycodestyle — "Indentation"
+    "E4",   # pycodestyle — "Import"
+    "E5",   # pycodestyle — "Line length"
+    "E7",   # pycodestyle — "Statement" (style of the code itself, not just formatting. E.g. "use 'is None' instead of '== None'")
+    "E9",   # pycodestyle — "Runtime" (exception classes that you probably shouldn't use)
+    "F",    # pyflakes — catches a bunch of common errors and code smells
+    #"FURB",# refurb — enable once out of preview
+    "N",    # pep8-naming — PEP8-rules for names of variables, classes, functions, etc.
+    "PIE",  # flake8-pie — misc lints
+    "PL",   # pylint
+    "S",    # flake8-bandit — security issues
+    "W",    # pycodestyle — "Warning" (assorted goodies: Tab vs spaces, trailing whitespace, etc.)
+    "RUF",  # Ruff-specific rules (most notable, dissallow unused noqa)
+    "SIM",  # flake8-simplify — code that can be simplified
+
+    # Small rule sets focused on one particular problem
+    "A",    # flake8-builtins — builtins shadowing
+    "C4",   # flake8-comprehensions
+    "COM",  # flake8-commas — when to have commas at end of lists, and when not
+    "D201", "D207", "D208", "D211", "D214", "D215", "D3", "D412", "D414", "D418", "D419",  # pydocstyle — a few selected docstyle rules
+    "FIX",  # flake8-fixme — dissallow TODO, FIXME and XXX
+    "G",    # flake8-logging-format
+    "T10",  # flake8-debugger — forgotten breakpoint() and ipdb.set_trace()
+    "ICN",  # flake8-import-conventions
+    "ISC",  # flake8-implicit-str-concat — non-idiomatic string concatenation
+    "PGH",  # pygrep-hooks — A few small issues. Most importantly, no blanket "# noqa" ignores!
+    "PTH",  # flake8-use-pathlib — prefer pathlib to os.XXX, open() etc.
+    "RSE",  # flake8-raise — unnecessary parenthesis on exceptions with no params
+    "SLF",  # flake8-self — dissallow private member (i.e. x._y) access
+    "SLOT", # flake8-slots — __slots__ in subclasses of str and tuple
+    "TRY004", "TRY201", "TRY301", "TRY302", "TRY401",  # tryceratops — try-except issues
+
+    # Minor rule sets. Usually just contain a few very specific issues, that we are unlikely to hit. But still.
+    "ASYNC",# flake8-async
+    "EXE",  # flake8-executable — shebang-related
+    "LOG", # flake8-logging — Python logging-module related issues
+    "FLY",  # flynt — prefer f-strings to join in certain cases
+    "TCH004", "TCH005", "TCH010",  # flake8-type-checking — TC-related problems, not TC itself
+    "TID",  # flake8-tidy-imports — healthy imports
+    "YTT",  # flake8-2020 — sys.version-related issues
+]
+ignore = [
+    "E722",     # bare-except
+    "ISC002",   # multi-line-implicit-string-concatenation (Line-breaking strings with "\")
+    "N818",     # error-suffix-on-exception-name (exception classes should en with …Error, but we also use …Exception)
+    "PGH003",   # blanket-type-ignore (allow blanket "# type: ignore". Sometimes makes lines too long, and hard to enforce in nova.tnet.nso
+    "PLR09",    # PLR0900-0999, too-many-XXX
+    "PLR2004",  # magic-value-comparison (literals in comparisons)
+    "PLR5501",  # collapsible-else-if (use elif instead of nested else-if)
+    "RSE102",   # Unnecessary parentheses on raised exception
+    "S101",     # We allow asserts, as does pretty much everyone
+    "S105",     # Allow hard-coded passwords. We know well enough not do to it for real passwords, all cases this catches are dummy-passwords and similar.
+    "SIM102",   # Allow nested if's that could be combined. We sometimes do this for clarity.
+    "SIM114",   # Allow multiple if-branches even if they can be combined. We sometimes do this for clarity.
+    "SIM117",   # Allow nested with-statements. Even if they can be combined, this can lead to way too long lines.
+]
+
+# Odd characters to allow in strings in rule RUF001. This rule is useful to catch
+# e.g. weird copy-paste whitespace errors, and even some types of attacks!
+allowed-confusables = ["´"]  # Backtick ("´") is used in DB statements
+
+[lint.per-file-ignores]
