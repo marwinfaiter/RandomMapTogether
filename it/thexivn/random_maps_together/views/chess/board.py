@@ -1,8 +1,8 @@
 import logging
 
+from it.thexivn.random_maps_together.models.database.chess.chess_score import \
+    ChessScore
 from pyplanet.views import TemplateView
-
-from ...models.database.chess.chess_score import ChessScore
 
 logger = logging.getLogger(__name__)
 

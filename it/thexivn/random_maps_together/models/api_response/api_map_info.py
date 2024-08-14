@@ -3,8 +3,8 @@ from typing import List, Tuple
 
 from attrs import define
 
-from ...constants import ICE_CHANGE_DATE, TAG_BOBSLEIGH, TAG_ICE
-from ..map_tag import MapTag
+from it.thexivn.random_maps_together.constants import ICE_CHANGE_DATE, TAG_BOBSLEIGH, TAG_ICE
+from it.thexivn.random_maps_together.models.map_tag import MapTag
 
 
 @define(frozen=True)
@@ -20,9 +20,7 @@ class APIMapInfo:
         return (self.has_tag_id(TAG_BOBSLEIGH) or self.has_tag_id(TAG_ICE)) and self.UpdatedAt < ICE_CHANGE_DATE
 
     def has_tag_id(self, tag_id) -> bool:
-        if next((tag for tag in self.Tags if tag.id == tag_id), None):
-            return True
-        return False
+        return bool(next((tag for tag in self.Tags if tag.id == tag_id), None))
 
     @classmethod
     def from_json(cls, json, map_tags: List[MapTag]) -> "APIMapInfo":
@@ -86,4 +84,5 @@ class APIMapInfo:
     # "CommentCount": 0,
     # "ReplayCount": 0,
     # "ImageCount": 0,
+    # "VideoCount": 0
     # "VideoCount": 0

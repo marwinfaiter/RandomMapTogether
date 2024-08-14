@@ -2,9 +2,12 @@ import logging
 import random
 from typing import Set
 
-from ..models.api_response.api_map_info import APIMapInfo
-from ..views.custom_maps_view import CustomMapsView
-from . import MapGenerator, MapGeneratorType
+from it.thexivn.random_maps_together.map_generator import (MapGenerator,
+                                                           MapGeneratorType)
+from it.thexivn.random_maps_together.models.api_response.api_map_info import \
+    APIMapInfo
+from it.thexivn.random_maps_together.views.custom_maps_view import \
+    CustomMapsView
 
 logger = logging.getLogger(__name__)
 
@@ -23,12 +26,12 @@ class Custom(MapGenerator):
         self.maps.update(await self.app.tmx_client.get_mappack_tracks(map_pack_id))
 
     async def remove_map(self, map_id):
-        self.maps.remove(next(map for map in self.maps if map.TrackID == map_id))
+        self.maps.remove(next(played_map for played_map in self.maps if played_map.TrackID == map_id))
 
     async def get_map(self) -> APIMapInfo:
-        non_played_maps = [map for map in self.maps if map not in self.played_maps]
+        non_played_maps = [played_map for played_map in self.maps if played_map not in self.played_maps]
         if non_played_maps:
-            return random.choice(non_played_maps)
+            return random.choice(non_played_maps)  # noqa: S311
 
         return await self.get_random_map()
 

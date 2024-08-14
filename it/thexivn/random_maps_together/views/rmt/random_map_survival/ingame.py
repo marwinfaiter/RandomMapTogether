@@ -1,7 +1,8 @@
 import logging
 
-from ....models.enums.game_modes import GameModes
-from ..ingame import RandomMapsTogetherIngameView
+from it.thexivn.random_maps_together.models.enums.game_modes import GameModes
+from it.thexivn.random_maps_together.views.rmt.ingame import \
+    RandomMapsTogetherIngameView
 
 logger = logging.getLogger(__name__)
 

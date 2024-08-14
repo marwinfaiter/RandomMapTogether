@@ -2,9 +2,9 @@ from typing import List
 
 import aiohttp
 
-from ..models.api_response.api_map_info import APIMapInfo
-from ..models.api_response.api_map_pack_info import APIMapPackInfo
-from ..models.map_tag import MapTag
+from it.thexivn.random_maps_together.models.api_response.api_map_info import APIMapInfo
+from it.thexivn.random_maps_together.models.api_response.api_map_pack_info import APIMapPackInfo
+from it.thexivn.random_maps_together.models.map_tag import MapTag
 
 
 class TMExchangeClient:
@@ -36,7 +36,7 @@ class TMExchangeClient:
             "random": 1,
             "lengthop": 1,
             "length": 9,
-            "etags": "23,46,40,41,42,37"
+            "etags": "23,46,40,41,42,37",
         })
         return maps.pop()
 
@@ -70,7 +70,7 @@ class TMExchangeClient:
     async def get_map_info_by_id(self, map_id):
         return APIMapInfo.from_json(
             await self.get_json(f"api/maps/get_map_info/id/{map_id}"),
-            await self.get_tags()
+            await self.get_tags(),
         )
 
     async def get_mappack_info_by_id(self, map_pack_id):
@@ -94,4 +94,5 @@ class TMExchangeClient:
         return self.map_tags
 
     async def get_map_content(self, map_id):
+        return await self.get_content(f"maps/download/{map_id}")
         return await self.get_content(f"maps/download/{map_id}")

@@ -1,4 +1,3 @@
-import peeweedbevolve as _
 from peewee import ForeignKeyField, IntegerField
 from pyplanet.core.db import TimedModel
 

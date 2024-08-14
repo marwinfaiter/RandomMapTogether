@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict
+from typing import Any, ClassVar, Dict
 
 from pyplanet.views.generics.widget import WidgetView
 
@@ -12,7 +12,7 @@ class SettingsView(WidgetView):
     z_index = 5
     size_x = 66
     size_y = 9
-    data: Dict[str, Any] = {}
+    data: ClassVar[Dict[str, Any]] = {}
 
     def __init__(self, app, config):
         super().__init__()

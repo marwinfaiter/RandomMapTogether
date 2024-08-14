@@ -5,9 +5,9 @@ from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.utils.times import format_time
 from pyplanet.views import TemplateView
 
-from ...models.database.rmt.rmt_player_score import RMTPlayerScore
-from ...models.database.rmt.rmt_score import RMTScore
-from ...models.enums.medal_urls import MedalSubstyle
+from it.thexivn.random_maps_together.models.database.rmt.rmt_player_score import RMTPlayerScore
+from it.thexivn.random_maps_together.models.database.rmt.rmt_score import RMTScore
+from it.thexivn.random_maps_together.models.enums.medal_urls import MedalSubstyle
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ class RandomMapsTogetherScoreBoardView(TemplateView):
         if self.game.app.map_handler.active_map.uid != self.game.app.map_handler.hub_map:
             data["time_left"] = format_time(
                 int((self.game.game_state.time_left - self.game.game_state.round_timer.current_round) * 1000),
-                hide_milliseconds=True
+                hide_milliseconds=True,
             )
             data["total_played_time"] = str(self.game.game_state.round_timer)
         else:
@@ -56,7 +56,7 @@ class RandomMapsTogetherScoreBoardView(TemplateView):
                     continue
                 if self.game.game_is_in_progress:
                     self._player_loops[player_login] = asyncio.create_task(
-                        self.display_and_update_until_hide(player_login)
+                        self.display_and_update_until_hide(player_login),
                     )
                 else:
                     await super().display([player_login])

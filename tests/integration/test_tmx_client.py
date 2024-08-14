@@ -2,12 +2,13 @@ import json
 from unittest import IsolatedAsyncioTestCase
 
 from aiohttp import ClientSession
+from mockito import KWARGS, expect, unstub, verifyNoUnwantedInteractions
+
 from it.thexivn.random_maps_together.client.tm_exchange_client import TMExchangeClient
 from it.thexivn.random_maps_together.models.api_response.api_map_info import APIMapInfo
 from it.thexivn.random_maps_together.models.api_response.api_map_pack_info import APIMapPackInfo
-from mockito import KWARGS, expect, unstub, verifyNoUnwantedInteractions
 
-from ..map_tags import TestMapTags
+from ..map_tags import TestMapTags  # noqa: TID252
 
 
 class MockedResponse:
@@ -42,39 +43,39 @@ class TestTMXClient(IsolatedAsyncioTestCase):
 
     async def test_get_tags(self):
         expect(ClientSession, times=1).get(
-            f"{self.base_url}api/tags/gettags", **KWARGS
+            f"{self.base_url}api/tags/gettags", **KWARGS,
         ).thenReturn(
-            MockedResponse(self.test_map_tags.expected_map_tags(), 200)
+            MockedResponse(self.test_map_tags.expected_map_tags(), 200),
         )
         assert await self.tmx_client.get_tags() == self.test_map_tags.expected_map_tags_as_objects()
 
     async def test_search_random_map(self):
         expect(ClientSession, times=1).get(
-            f"{self.base_url}api/tags/gettags", **KWARGS
+            f"{self.base_url}api/tags/gettags", **KWARGS,
         ).thenReturn(
-            MockedResponse(self.test_map_tags.expected_map_tags(), 200)
+            MockedResponse(self.test_map_tags.expected_map_tags(), 200),
         )
         expect(ClientSession, times=1).get(
-            f"{self.base_url}mapsearch2/search", **KWARGS
+            f"{self.base_url}mapsearch2/search", **KWARGS,
         ).thenReturn(
-            MockedResponse(self._expected_map_search(), 200)
+            MockedResponse(self._expected_map_search(), 200),
         )
         assert await self.tmx_client.search_random_map() == APIMapInfo.from_json(
-            self._expected_map(), self.test_map_tags.expected_map_tags_as_objects()
+            self._expected_map(), self.test_map_tags.expected_map_tags_as_objects(),
         )
 
     async def test_search_mappack(self):
         expect(ClientSession, times=1).get(
-            f"{self.base_url}mappacksearch/search", **KWARGS
+            f"{self.base_url}mappacksearch/search", **KWARGS,
         ).thenReturn(
-            MockedResponse(self._expected_map_pack_search(), 200)
+            MockedResponse(self._expected_map_pack_search(), 200),
         )
         assert await self.tmx_client.search_mappack() == [APIMapPackInfo.from_json(self._expected_map_pack())]
 
 
     def _expected_map_search(self):
         return {
-            "results": [self._expected_map()]
+            "results": [self._expected_map()],
         }
 
     def _expected_map(self):
@@ -135,12 +136,12 @@ class TestTMXClient(IsolatedAsyncioTestCase):
             "CommentCount":0,
             "ReplayCount":0,
             "ImageCount":0,
-            "VideoCount":0
+            "VideoCount":0,
         }
 
     def _expected_map_pack_search(self):
         return {
-            "results": [self._expected_map_pack()]
+            "results": [self._expected_map_pack()],
         }
 
     def _expected_map_pack(self):
@@ -171,5 +172,5 @@ class TestTMXClient(IsolatedAsyncioTestCase):
             "TagsString":"1,22,27",
             "APIOn":False,
             "AutoApprove":False,
-            "StandardView":None
+            "StandardView":None,
         }

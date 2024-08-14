@@ -1,7 +1,9 @@
 import logging
 
-from ....configuration.rmt.rmc_configuration import RandomMapChallengeConfiguration
-from ..settings import RandomMapsTogetherSettingsView
+from it.thexivn.random_maps_together.configuration.rmt.rmc_configuration import \
+    RandomMapChallengeConfiguration
+from it.thexivn.random_maps_together.views.rmt.settings import \
+    RandomMapsTogetherSettingsView
 
 logger = logging.getLogger(__name__)
 

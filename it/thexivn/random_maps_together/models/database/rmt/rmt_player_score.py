@@ -1,11 +1,10 @@
-import peeweedbevolve as _
+from it.thexivn.random_maps_together.models.database.rmt.rmt_score import \
+    RMTScore
+from it.thexivn.random_maps_together.models.enums.medals import Medals
 from peewee import CharField, ForeignKeyField, IntegerField
 from playhouse.hybrid import hybrid_property
 from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.core.db import TimedModel
-
-from ...enums.medals import Medals
-from .rmt_score import RMTScore
 
 
 class RMTPlayerScore(TimedModel):
@@ -55,7 +54,7 @@ class RMTPlayerScore(TimedModel):
                 RMTPlayerScore.silver_medals.desc(),
                 RMTPlayerScore.bronze_medals.desc(),
             )
-            .limit(20)
+            .limit(20),
         )
 
     async def increase_medal_count(self, medal: Medals):

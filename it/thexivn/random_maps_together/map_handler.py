@@ -59,7 +59,7 @@ class MapHandler:
         await self._map_manager.upload_map(
             io.BytesIO(await self.app.tmx_client.get_map_content(random_map.TrackID)),
             f'{random_map.TrackUID}.Map.Gbx',
-            overwrite=True
+            overwrite=True,
         )
         await self._map_manager.update_list(full_update=True, detach_fks=True)
         logger.info('UPLOAD COMPLETE')
@@ -97,7 +97,7 @@ class MapHandler:
                 await self._map_manager.upload_map(
                     io.BytesIO(await self.app.tmx_client.get_map_content(self._hub_id)),
                     f'{self.hub_map}.Map.Gbx',
-                    overwrite=True
+                    overwrite=True,
                 )
 
             await self._map_manager.update_list(full_update=True, detach_fks=True)

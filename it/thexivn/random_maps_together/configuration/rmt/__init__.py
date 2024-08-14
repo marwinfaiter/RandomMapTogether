@@ -3,14 +3,13 @@ from typing import Dict
 from attrs import define, field
 from pyplanet.apps.core.maniaplanet.models import Player
 
-from ...configuration import check_player_allowed_to_change_game_settings
-from ...map_generator import MapGenerator
-from ...models.enums.medals import Medals
-from ...models.rmt.player_configuration import PlayerConfiguration
-from ...views.player_prompt_view import PlayerPromptView
-from ...views.rmt.leaderboard_view import LeaderboardView
-from ...views.rmt.player_config_view import PlayerConfigView
-from .. import Configuration
+from it.thexivn.random_maps_together.configuration import Configuration, check_player_allowed_to_change_game_settings
+from it.thexivn.random_maps_together.map_generator import MapGenerator
+from it.thexivn.random_maps_together.models.enums.medals import Medals
+from it.thexivn.random_maps_together.models.rmt.player_configuration import PlayerConfiguration
+from it.thexivn.random_maps_together.views.player_prompt_view import PlayerPromptView
+from it.thexivn.random_maps_together.views.rmt.leaderboard_view import LeaderboardView
+from it.thexivn.random_maps_together.views.rmt.player_config_view import PlayerConfigView
 
 
 @define
@@ -27,16 +26,16 @@ class RandomMapsTogetherConfiguration(Configuration):
 
     def update_player_configs(self):
         for player in self.app.instance.player_manager.online:
-            if not player.login in self.player_configs:
+            if player.login not in self.player_configs:
                 self.player_configs[player.login] = PlayerConfiguration(
                     player,
-                    enabled=True if not self.app.game.game_is_in_progress else self.enabled
+                    enabled=True if not self.app.game.game_is_in_progress else self.enabled,
                 )
 
     @check_player_allowed_to_change_game_settings
     async def set_game_time_seconds(self, player: Player, buttons):
         time_seconds = await PlayerPromptView.prompt_for_input(
-            player, "Game time in seconds", buttons, default=self.game_time_seconds
+            player, "Game time in seconds", buttons, default=self.game_time_seconds,
         )
         self.game_time_seconds = int(time_seconds)
         await self.app.game.views.settings_view.display()

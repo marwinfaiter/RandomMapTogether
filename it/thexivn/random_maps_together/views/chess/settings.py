@@ -1,6 +1,6 @@
 import logging
 
-from ..settings import SettingsView
+from it.thexivn.random_maps_together.views.settings import SettingsView
 
 logger = logging.getLogger(__name__)
 

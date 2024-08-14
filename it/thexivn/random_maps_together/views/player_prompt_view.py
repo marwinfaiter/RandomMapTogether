@@ -45,7 +45,7 @@ class PlayerPromptView(AlertView):
             match = re.search(r'button_(ok)$', action)
             if match:
                 button = match.group(1)
-        except Exception as _exc: # pylint: disable=broad-exception-caught
+        except Exception as _exc: # noqa: S110
             pass
 
         if button == "ok":
@@ -68,7 +68,7 @@ class PlayerPromptView(AlertView):
     @classmethod
     async def prompt_for_input(
         cls, player: Player, message: str,
-        buttons=None, entry=True, validator=None, default=None, ok_button=True
+        buttons=None, entry=True, validator=None, default=None, ok_button=True,
     ):
         prompt_view = cls(message, buttons, entry=entry, validator=validator, default=default, ok_button=ok_button)
         await prompt_view.display([player])

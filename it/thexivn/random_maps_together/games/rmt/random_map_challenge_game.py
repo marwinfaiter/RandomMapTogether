@@ -1,11 +1,14 @@
 import asyncio
 
-from ...configuration.rmt.rmc_configuration import RandomMapChallengeConfiguration
-from ...map_generator import MapGenerator
-from ...models.enums.game_modes import GameModes
-from ...views.rmt.random_map_challenge.ingame import RandomMapChallengeIngameView
-from ...views.rmt.random_map_challenge.settings import RandomMapChallengeSettingsView
-from . import RMTGame
+from it.thexivn.random_maps_together.configuration.rmt.rmc_configuration import \
+    RandomMapChallengeConfiguration
+from it.thexivn.random_maps_together.games.rmt import RMTGame
+from it.thexivn.random_maps_together.map_generator import MapGenerator
+from it.thexivn.random_maps_together.models.enums.game_modes import GameModes
+from it.thexivn.random_maps_together.views.rmt.random_map_challenge.ingame import \
+    RandomMapChallengeIngameView
+from it.thexivn.random_maps_together.views.rmt.random_map_challenge.settings import \
+    RandomMapChallengeSettingsView
 
 
 class RandomMapChallengeGame(RMTGame):
@@ -18,5 +21,5 @@ class RandomMapChallengeGame(RMTGame):
         self.views.ingame_view = RandomMapChallengeIngameView(self)
         asyncio.gather(
             self.views.settings_view.display(),
-            self.hide_timer()
+            self.hide_timer(),
         )

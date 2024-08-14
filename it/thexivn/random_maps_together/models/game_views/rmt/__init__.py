@@ -1,9 +1,11 @@
 from attrs import define, field
-
-from ....views.rmt.ingame import RandomMapsTogetherIngameView
-from ....views.rmt.scoreboard import RandomMapsTogetherScoreBoardView
-from ....views.rmt.settings import RandomMapsTogetherSettingsView
-from .. import GameViews
+from it.thexivn.random_maps_together.models.game_views import GameViews
+from it.thexivn.random_maps_together.views.rmt.ingame import \
+    RandomMapsTogetherIngameView
+from it.thexivn.random_maps_together.views.rmt.scoreboard import \
+    RandomMapsTogetherScoreBoardView
+from it.thexivn.random_maps_together.views.rmt.settings import \
+    RandomMapsTogetherSettingsView
 
 
 @define

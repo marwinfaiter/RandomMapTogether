@@ -1,9 +1,9 @@
 from attrs import define, field
-
-from ....views.chess.board import ChessBoardView
-from ....views.chess.ingame import ChessIngameView
-from ....views.chess.settings import ChessSettingsView
-from .. import GameViews
+from it.thexivn.random_maps_together.models.game_views import GameViews
+from it.thexivn.random_maps_together.views.chess.board import ChessBoardView
+from it.thexivn.random_maps_together.views.chess.ingame import ChessIngameView
+from it.thexivn.random_maps_together.views.chess.settings import \
+    ChessSettingsView
 
 
 @define

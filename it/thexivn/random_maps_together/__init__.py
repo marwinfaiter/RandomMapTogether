@@ -1,8 +1,8 @@
 import asyncio
 import logging
-from typing import Dict
+from typing import ClassVar, Dict, List
 
-import peeweedbevolve as _
+import peeweedbevolve as _  # noqa: F401
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet import callbacks as mania_callback
 from pyplanet.apps.core.maniaplanet.models import Player
@@ -21,8 +21,8 @@ from .views.game_selector_view import GameSelectorView
 logger = logging.getLogger(__name__)
 
 class RandomMapsTogetherApp(AppConfig):
-    app_dependencies = ['core.maniaplanet', 'core.trackmania']
-    game_dependencies = ['trackmania_next', 'trackmania']
+    app_dependencies: ClassVar[List[str]] = ['core.maniaplanet', 'core.trackmania']
+    game_dependencies: ClassVar[List[str]] = ['trackmania_next', 'trackmania']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -52,7 +52,7 @@ class RandomMapsTogetherApp(AppConfig):
                     "player",
                     "setting",
                     "stats_scores",
-                ]
+                ],
             )
         self.mode_settings = await self.instance.mode_manager.get_settings()
 

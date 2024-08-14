@@ -1,10 +1,11 @@
 from typing import Optional
 
 from attrs import define
-
-from ...database.chess.chess_move import ChessMove
-from ...database.chess.chess_piece import ChessPiece
-from ...enums.team import Team
+from it.thexivn.random_maps_together.models.database.chess.chess_move import \
+    ChessMove
+from it.thexivn.random_maps_together.models.database.chess.chess_piece import \
+    ChessPiece
+from it.thexivn.random_maps_together.models.enums.team import Team
 
 
 @define

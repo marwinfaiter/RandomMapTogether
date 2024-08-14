@@ -4,15 +4,15 @@ from attrs import define
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet.models import Player
 
-from ..games import Game
-from ..map_generator import MapGenerator, MapGeneratorType
-from ..map_generator.custom import Custom
-from ..map_generator.totd import TOTD
-from ..settings import MIN_PLAYER_LEVEL_SETTINGS
-from ..views.rmt.leaderboard_view import LeaderboardView
+from it.thexivn.random_maps_together.games import Game
+from it.thexivn.random_maps_together.map_generator import MapGenerator, MapGeneratorType
+from it.thexivn.random_maps_together.map_generator.custom import Custom
+from it.thexivn.random_maps_together.map_generator.totd import TOTD
+from it.thexivn.random_maps_together.settings import MIN_PLAYER_LEVEL_SETTINGS
+from it.thexivn.random_maps_together.views.rmt.leaderboard_view import LeaderboardView
 
 if TYPE_CHECKING:
-    from .. import RandomMapsTogetherApp
+    from it.thexivn.random_maps_together import RandomMapsTogetherApp
 
 def check_player_allowed_to_manage_running_game(f):
     async def wrapper(self, player: Player, *args, **kwargs) -> Any:
@@ -62,4 +62,5 @@ class Configuration:
                 self.map_generator = Custom(self.app)
             await self.map_generator.maps_ui.display(player) # type: ignore[attr-defined] # pylint: disable=no-member
 
+        await self.app.game.views.settings_view.display()
         await self.app.game.views.settings_view.display()

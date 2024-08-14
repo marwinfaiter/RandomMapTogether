@@ -5,7 +5,7 @@ from typing import Optional
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet.models import Player
 
-from ..models.game_views import GameViews
+from it.thexivn.random_maps_together.models.game_views import GameViews
 
 logger = logging.getLogger(__name__)
 
@@ -26,11 +26,11 @@ class Game:
         try:
             await asyncio.gather(
                 self.app.map_handler.load_with_retry(),
-                self.views.ingame_view.display()
+                self.views.ingame_view.display(),
             )
         except Exception as exc:
             await asyncio.gather(
                 self.views.ingame_view.hide(),
-                self.app.game.views.settings_view.display()
+                self.app.game.views.settings_view.display(),
             )
-            raise RuntimeError(f"Error occurred when loading next map: {str(exc)}") from exc
+            raise RuntimeError(f"Error occurred when loading next map: {exc!s}") from exc

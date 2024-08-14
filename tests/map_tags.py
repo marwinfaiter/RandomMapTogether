@@ -53,5 +53,5 @@ class TestMapTags:
             {"ID":44,"Name":"Bobsleigh","Color":""},
             {"ID":45,"Name":"Pathfinding","Color":""},
             {"ID":46,"Name":"FlagRush","Color":"7a0000"},
-            {"ID":47,"Name":"Puzzle","Color":"459873"}
+            {"ID":47,"Name":"Puzzle","Color":"459873"},
         ]

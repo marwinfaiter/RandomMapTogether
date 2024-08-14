@@ -1,9 +1,8 @@
 from typing import Tuple
 
 from attrs import define
-
-from ...enums.team import Team
-from . import Piece
+from it.thexivn.random_maps_together.models.chess.piece import Piece
+from it.thexivn.random_maps_together.models.enums.team import Team
 
 
 @define

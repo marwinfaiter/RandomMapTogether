@@ -3,16 +3,16 @@ from typing import Callable, List, Optional
 
 from attrs import define, field
 
-from ..chess.piece import Piece
-from ..chess.piece.bishop import Bishop
-from ..chess.piece.king import King
-from ..chess.piece.knight import Knight
-from ..chess.piece.pawn import Pawn
-from ..chess.piece.queen import Queen
-from ..chess.piece.rook import Rook
-from ..database.chess.chess_move import ChessMove
-from ..enums.chess_state import ChessState
-from ..enums.team import Team
+from it.thexivn.random_maps_together.models.chess.piece import Piece
+from it.thexivn.random_maps_together.models.chess.piece.bishop import Bishop
+from it.thexivn.random_maps_together.models.chess.piece.king import King
+from it.thexivn.random_maps_together.models.chess.piece.knight import Knight
+from it.thexivn.random_maps_together.models.chess.piece.pawn import Pawn
+from it.thexivn.random_maps_together.models.chess.piece.queen import Queen
+from it.thexivn.random_maps_together.models.chess.piece.rook import Rook
+from it.thexivn.random_maps_together.models.database.chess.chess_move import ChessMove
+from it.thexivn.random_maps_together.models.enums.chess_state import ChessState
+from it.thexivn.random_maps_together.models.enums.team import Team
 
 logger = logging.getLogger(__name__)
 
@@ -150,11 +150,8 @@ class GameState:
         if move.__name__ in ("move_forward", "move_forward_forward") and self.get_piece_by_coordinate(x, y):
             return False
 
-        if move.__name__ == "move_forward_forward" \
-            and (self.get_piece_by_coordinate(*piece.move_forward(1)) or piece.last_move):
-            return False
-
-        return True
+        return not (move.__name__ == "move_forward_forward" and \
+                    (self.get_piece_by_coordinate(*piece.move_forward(1)) or piece.last_move))
 
     def is_valid_king_move(self, piece: King, move: Callable):
         if move.__name__ == "castle_left":
@@ -214,7 +211,4 @@ class GameState:
             target_piece.captured = False
         piece.x, piece.y = old_x, old_y
 
-        if pieces_attacking_king:
-            return False
-
-        return True
+        return not pieces_attacking_king

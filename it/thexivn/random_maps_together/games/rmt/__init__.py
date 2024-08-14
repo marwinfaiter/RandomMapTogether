@@ -6,17 +6,17 @@ from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.core.trackmania import callbacks as tm_callbacks
 from pyplanet.utils.times import format_time
 
-from ...configuration import check_player_allowed_to_manage_running_game
-from ...configuration.rmt import RandomMapsTogetherConfiguration
-from ...constants import BIG_MESSAGE, RACE_SCORES_TABLE, S_FORCE_LAPS_NB, S_TIME_LIMIT
-from ...models.database.rmt.rmt_player_score import RMTPlayerScore
-from ...models.database.rmt.rmt_score import RMTScore
-from ...models.enums.game_modes import GameModes
-from ...models.enums.game_script import GameScript
-from ...models.game_views.rmt import RandomMapsTogetherViews
-from ...models.rmt.game_state import GameState
-from ...views.rmt.scoreboard import RandomMapsTogetherScoreBoardView
-from .. import Game
+from it.thexivn.random_maps_together.configuration import check_player_allowed_to_manage_running_game
+from it.thexivn.random_maps_together.configuration.rmt import RandomMapsTogetherConfiguration
+from it.thexivn.random_maps_together.constants import BIG_MESSAGE, RACE_SCORES_TABLE, S_FORCE_LAPS_NB, S_TIME_LIMIT
+from it.thexivn.random_maps_together.games import Game
+from it.thexivn.random_maps_together.models.database.rmt.rmt_player_score import RMTPlayerScore
+from it.thexivn.random_maps_together.models.database.rmt.rmt_score import RMTScore
+from it.thexivn.random_maps_together.models.enums.game_modes import GameModes
+from it.thexivn.random_maps_together.models.enums.game_script import GameScript
+from it.thexivn.random_maps_together.models.game_views.rmt import RandomMapsTogetherViews
+from it.thexivn.random_maps_together.models.rmt.game_state import GameState
+from it.thexivn.random_maps_together.views.rmt.scoreboard import RandomMapsTogetherScoreBoardView
 
 _lock = asyncio.Lock()
 
@@ -53,7 +53,7 @@ class RMTGame(Game):
         mania_callback.flow.round_start__end.register(self.round_start)
 
         await self.app.instance.gbx.multicall(
-            self.app.instance.gbx.prepare('SetCallVoteRatios', [-1])
+            self.app.instance.gbx.prepare('SetCallVoteRatios', [-1]),
         )
 
         await self.set_original_scoreboard_visible(False)
@@ -94,7 +94,7 @@ class RMTGame(Game):
         await self.hide_timer()
         await self.views.scoreboard_view.display()
         await self.views.ingame_view.hide()
-        asyncio.create_task(self._show_scoreboard_until_hub_map())
+        asyncio.create_task(self._show_scoreboard_until_hub_map())  # noqa: RUF006
         await self.views.settings_view.display()
 
         tm_callbacks.finish.unregister(self.on_map_finish)
@@ -138,7 +138,7 @@ class RMTGame(Game):
             await self.app.chat(
                 "Challenge completed"
                 f" {self.config.goal_medal.name}: {await self.score.total_goal_medals}"
-                f" {self.config.skip_medal.name}: {await self.score.total_skip_medals}"
+                f" {self.config.skip_medal.name}: {await self.score.total_skip_medals}",
             )
             self.game_is_in_progress = False
         else:
@@ -170,7 +170,7 @@ class RMTGame(Game):
                     if self.config.player_configs[player.login].enabled is not None else self.config.enabled
                 ):
                     return await self.app.chat(
-                        f"{player.nickname} got {race_medal.name}, congratulations! Too bad it doesn't count.."
+                        f"{player.nickname} got {race_medal.name}, congratulations! Too bad it doesn't count..",
                     )
 
                 logger.info("[on_map_finish %s acquired", self.config.goal_medal.name)
@@ -183,7 +183,7 @@ class RMTGame(Game):
                     defaults={
                         "goal_medal": getattr(self.config.player_configs[player.login].goal_medal, "name", None),
                         "skip_medal": getattr(self.config.player_configs[player.login].skip_medal, "name", None),
-                    }
+                    },
                 )
                 await player_score.increase_medal_count(race_medal)
                 await player_score.save()
@@ -191,7 +191,7 @@ class RMTGame(Game):
                 self.game_state.current_map_completed = True
                 await self.hide_timer()
                 await self.app.chat(
-                    f'{player.nickname} claimed {race_medal.name} with {format_time(race_time)}, congratulations!'
+                    f'{player.nickname} claimed {race_medal.name} with {format_time(race_time)}, congratulations!',
                 )
                 await self.load_map_and_display_ingame_view()
                 await self.views.scoreboard_view.display()
@@ -206,7 +206,7 @@ class RMTGame(Game):
                 ):
                     return await self.app.chat(
                         f"{player.nickname} got {race_medal.name}, "
-                        "congratulations! Too bad it doesn't count.."
+                        "congratulations! Too bad it doesn't count..",
                     )
 
                 logger.info('[on_map_finish] %s acquired', race_medal.name)
@@ -215,7 +215,7 @@ class RMTGame(Game):
                 await self.views.ingame_view.display()
                 await self.app.chat(
                     f'First {race_medal.name} acquired, '
-                    f'congrats to {player.nickname} with {format_time(race_time)}'
+                    f'congrats to {player.nickname} with {format_time(race_time)}',
                 )
                 await self.app.chat(f'You are now allowed to take the {race_medal.name} and skip the map')
 
@@ -238,12 +238,12 @@ class RMTGame(Game):
             player=self.game_state.skip_medal_player.id,
             defaults={
                 "goal_medal": getattr(
-                    self.config.player_configs[self.game_state.skip_medal_player.login].goal_medal, "name", None
+                    self.config.player_configs[self.game_state.skip_medal_player.login].goal_medal, "name", None,
                 ),
                 "skip_medal": getattr(
-                    self.config.player_configs[self.game_state.skip_medal_player.login].skip_medal, "name", None
+                    self.config.player_configs[self.game_state.skip_medal_player.login].skip_medal, "name", None,
                 ),
-            }
+            },
         )
 
         await player_score.increase_medal_count(self.game_state.skip_medal)
@@ -252,7 +252,7 @@ class RMTGame(Game):
         self.game_state.current_map_completed = True
         await self.app.chat(
             f"{player.nickname} decided to take {self.game_state.skip_medal.name}"
-            f" by {self.game_state.skip_medal_player.nickname} and skip"
+            f" by {self.game_state.skip_medal_player.nickname} and skip",
         )
 
         await self.hide_timer()

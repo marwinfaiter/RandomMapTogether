@@ -1,10 +1,9 @@
 from typing import Optional, Union
 
 from attrs import define, field
+from it.thexivn.random_maps_together.models.enums.medals import Medals
+from it.thexivn.random_maps_together.models.round_timer import RoundTimer
 from pyplanet.apps.core.maniaplanet.models import Player
-
-from ..enums.medals import Medals
-from ..round_timer import RoundTimer
 
 
 @define

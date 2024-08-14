@@ -14,5 +14,5 @@ class APIMapPackInfo:
             json["ID"],
             json["Name"],
             json["Downloads"],
-            json["TrackCount"]
+            json["TrackCount"],
         )

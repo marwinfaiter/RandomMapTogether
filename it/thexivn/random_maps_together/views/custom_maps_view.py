@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, List
+from typing import ClassVar, Dict, List
 
 from pyplanet.apps.config import AppConfig
 from pyplanet.views.generics.list import ManualListView
@@ -17,7 +17,7 @@ class CustomMapsView(ManualListView): # pylint: disable=duplicate-code
     icon_style = 'Icons128x128_1'
     icon_substyle = 'Browse'
 
-    data: List[Dict] = []
+    data: ClassVar[List[Dict]] = []
 
     def __init__(self, app):
         super().__init__(self)
@@ -47,7 +47,7 @@ class CustomMapsView(ManualListView): # pylint: disable=duplicate-code
                 'sorting': True,
                 'searching': False,
                 'width': 50,
-                'safe': True
+                'safe': True,
             },
             {
                 'name': 'Pre patch ice',
@@ -55,7 +55,7 @@ class CustomMapsView(ManualListView): # pylint: disable=duplicate-code
                 'sorting': True,
                 'searching': False,
                 'width': 30,
-                'safe': True
+                'safe': True,
             },
             {
                 'name': 'ID',
@@ -82,26 +82,26 @@ class CustomMapsView(ManualListView): # pylint: disable=duplicate-code
             {
                 "title": "Add map",
                 "width": 30,
-                "action": self.add_map
+                "action": self.add_map,
             },
             {
                 "title": "Add map pack",
                 "width": 30,
-                "action": self.add_map_pack
+                "action": self.add_map_pack,
             },
         ]
 
     async def get_data(self):
         data = [
             {
-                "name": map.Name,
-                "author": map.Username,
-                "tags": ", ".join([str(tag) for tag in map.Tags]),
-                "pre_patch_ice": map.is_pre_patch_ice(),
-                "id": map.TrackID,
-                "uid": map.TrackUID,
+                "name": generator_map.Name,
+                "author": generator_map.Username,
+                "tags": ", ".join([str(tag) for tag in generator_map.Tags]),
+                "pre_patch_ice": generator_map.is_pre_patch_ice(),
+                "id": generator_map.TrackID,
+                "uid": generator_map.TrackUID,
             }
-            for map in self.app.game.config.map_generator.maps
+            for generator_map in self.app.game.config.map_generator.maps
         ]
         logger.info(data)
         return data
@@ -112,14 +112,14 @@ class CustomMapsView(ManualListView): # pylint: disable=duplicate-code
 
     async def add_map(self, player, _values, **_kwargs):
         map_id = await PlayerPromptView.prompt_for_input(
-            player, "Map ID", validator=self.app.game.config.map_generator.map_id_validator, default=""
+            player, "Map ID", validator=self.app.game.config.map_generator.map_id_validator, default="",
         )
         await self.app.game.config.map_generator.add_map(map_id)
         await self.display(player)
 
     async def add_map_pack(self, player, _values, **_kwargs):
         map_pack_id = await PlayerPromptView.prompt_for_input(
-            player, "Map Pack ID", validator=self.app.game.config.map_generator.map_pack_id_validator, default=""
+            player, "Map Pack ID", validator=self.app.game.config.map_generator.map_pack_id_validator, default="",
         )
         await self.app.game.config.map_generator.add_map_pack(map_pack_id)
         await self.display(player)

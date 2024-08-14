@@ -1,9 +1,8 @@
 from typing import Optional
 
 from attrs import define
+from it.thexivn.random_maps_together.models.enums.medals import Medals
 from pyplanet.apps.core.maniaplanet.models import Player
-
-from ..enums.medals import Medals
 
 
 @define

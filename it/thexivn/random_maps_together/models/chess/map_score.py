@@ -1,6 +1,6 @@
 from attrs import define
 
-from ..enums.team import Team
+from it.thexivn.random_maps_together.models.enums.team import Team
 
 
 @define

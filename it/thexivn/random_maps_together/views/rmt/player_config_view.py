@@ -1,15 +1,17 @@
 import logging
-from typing import Dict, List
+from typing import ClassVar, Dict, List
 
+from it.thexivn.random_maps_together.configuration import \
+    check_player_allowed_to_change_game_settings
+from it.thexivn.random_maps_together.models.database.rmt.rmt_player_score import \
+    RMTPlayerScore
+from it.thexivn.random_maps_together.models.enums.medals import Medals
+from it.thexivn.random_maps_together.views.player_prompt_view import \
+    PlayerPromptView
 from peewee import DoesNotExist
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.views.generics.list import ManualListView
-
-from ...configuration import check_player_allowed_to_change_game_settings
-from ...models.database.rmt.rmt_player_score import RMTPlayerScore
-from ...models.enums.medals import Medals
-from ..player_prompt_view import PlayerPromptView
 
 # pylint: disable=duplicate-code
 logger = logging.getLogger(__name__)
@@ -22,7 +24,7 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
     icon_style = 'Icons128x128_1'
     icon_substyle = 'Browse'
 
-    data: List[Dict] = []
+    data: ClassVar[List[Dict]] = []
 
     def __init__(self, app):
         super().__init__(self)
@@ -53,7 +55,7 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
                 'sorting': True,
                 'searching': False,
                 'width': 30,
-                'action': self.prompt_for_goal_medal
+                'action': self.prompt_for_goal_medal,
             },
             {
                 'name': 'Skip Medal',
@@ -61,7 +63,7 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
                 'sorting': True,
                 'searching': False,
                 'width': 30,
-                'action': self.prompt_for_skip_medal
+                'action': self.prompt_for_skip_medal,
             },
         ]
 
@@ -94,8 +96,8 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
                 "key": "styleselected",
                 "value": self.app.game.config.player_configs[row["player_login"]].enabled \
                     if self.app.game.config.player_configs[row["player_login"]].enabled is not None \
-                    else self.app.game.config.enabled
-            }
+                    else self.app.game.config.enabled,
+            },
         ]
 
     @check_player_allowed_to_change_game_settings
@@ -106,7 +108,7 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
                 {"name": "Enable", "value": True},
                 {"name": "Disable", "value": False},
             ],
-            entry=False
+            entry=False,
         )
         self.app.game.config.player_configs[row["player_login"]].enabled = input_value
         await self.refresh(player=player)
@@ -120,7 +122,7 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
 
         medal = await PlayerPromptView.prompt_for_input(
             player, f"Goal Medal, OK for global Goal Medal: {self.app.game.config.goal_medal.name}",
-            buttons=buttons, entry=False
+            buttons=buttons, entry=False,
         )
         self.app.game.config.player_configs[row["player_login"]].goal_medal = medal
         if self.app.game.game_is_in_progress:
@@ -146,7 +148,7 @@ class PlayerConfigView(ManualListView): # pylint: disable=duplicate-code
 
         medal = await PlayerPromptView.prompt_for_input(
             player, f"Skip Medal, OK for global Skip Medal: {self.app.game.config.skip_medal.name}",
-            buttons=buttons, entry=False
+            buttons=buttons, entry=False,
         )
         self.app.game.config.player_configs[row["player_login"]].skip_medal = medal
         if self.app.game.game_is_in_progress:

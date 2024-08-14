@@ -1,34 +1,39 @@
 import asyncio
 import logging
 
+from it.thexivn.random_maps_together.configuration.chess import \
+    ChessConfiguration
+from it.thexivn.random_maps_together.constants import S_FORCE_LAPS_NB
+from it.thexivn.random_maps_together.games import Game
+from it.thexivn.random_maps_together.map_generator import MapGenerator
+from it.thexivn.random_maps_together.models.chess.game_state import GameState
+from it.thexivn.random_maps_together.models.chess.map_score import MapScore
+from it.thexivn.random_maps_together.models.chess.piece.bishop import Bishop
+from it.thexivn.random_maps_together.models.chess.piece.king import King
+from it.thexivn.random_maps_together.models.chess.piece.knight import Knight
+from it.thexivn.random_maps_together.models.chess.piece.pawn import Pawn
+from it.thexivn.random_maps_together.models.chess.piece.queen import Queen
+from it.thexivn.random_maps_together.models.chess.piece.rook import Rook
+from it.thexivn.random_maps_together.models.database.chess.chess_move import \
+    ChessMove
+from it.thexivn.random_maps_together.models.database.chess.chess_piece import \
+    ChessPiece
+from it.thexivn.random_maps_together.models.database.chess.chess_score import \
+    ChessScore
+from it.thexivn.random_maps_together.models.enums.chess_state import ChessState
+from it.thexivn.random_maps_together.models.enums.game_modes import GameModes
+from it.thexivn.random_maps_together.models.enums.game_script import GameScript
+from it.thexivn.random_maps_together.models.enums.team import Team
+from it.thexivn.random_maps_together.models.game_views.chess import ChessViews
+from it.thexivn.random_maps_together.views.chess.board import ChessBoardView
+from it.thexivn.random_maps_together.views.chess.ingame import ChessIngameView
+from it.thexivn.random_maps_together.views.chess.settings import \
+    ChessSettingsView
+from it.thexivn.random_maps_together.views.player_prompt_view import \
+    PlayerPromptView
 from pyplanet.apps.core.maniaplanet import callbacks as mania_callback
 from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.core.trackmania import callbacks as tm_callbacks
-
-from ...configuration.chess import ChessConfiguration
-from ...constants import S_FORCE_LAPS_NB
-from ...map_generator import MapGenerator
-from ...models.chess.game_state import GameState
-from ...models.chess.map_score import MapScore
-from ...models.chess.piece.bishop import Bishop
-from ...models.chess.piece.king import King
-from ...models.chess.piece.knight import Knight
-from ...models.chess.piece.pawn import Pawn
-from ...models.chess.piece.queen import Queen
-from ...models.chess.piece.rook import Rook
-from ...models.database.chess.chess_move import ChessMove
-from ...models.database.chess.chess_piece import ChessPiece
-from ...models.database.chess.chess_score import ChessScore
-from ...models.enums.chess_state import ChessState
-from ...models.enums.game_modes import GameModes
-from ...models.enums.game_script import GameScript
-from ...models.enums.team import Team
-from ...models.game_views.chess import ChessViews
-from ...views.chess.board import ChessBoardView
-from ...views.chess.ingame import ChessIngameView
-from ...views.chess.settings import ChessSettingsView
-from ...views.player_prompt_view import PlayerPromptView
-from .. import Game
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +72,7 @@ class ChessGame(Game):
 
 
         await self.app.instance.gbx.multicall(
-            self.app.instance.gbx.prepare('SetCallVoteRatios', [-1])
+            self.app.instance.gbx.prepare('SetCallVoteRatios', [-1]),
         )
 
         await self.views.settings_view.hide()
@@ -83,17 +88,17 @@ class ChessGame(Game):
                 team=piece.team.name,
                 piece=piece.__class__.__name__.lower(),
                 x=piece.x,
-                y=piece.y
+                y=piece.y,
             )
 
         self.config.update_player_configs()
         try:
             await asyncio.gather(
                 self.views.ingame_view.display(),
-                self.views.board_view.display()
+                self.views.board_view.display(),
             )
         except Exception as exc:
-            raise RuntimeError(f"Failed to start Chess game: {str(exc)}") from exc
+            raise RuntimeError(f"Failed to start Chess game: {exc!s}") from exc
 
         return self
 
@@ -173,7 +178,7 @@ class ChessGame(Game):
 
         x, y = map(
             int,
-            button_id.split("it_thexivn_RandomMapsTogether_scoreboard__ui_display_piece_moves_")[1].split("_")
+            button_id.split("it_thexivn_RandomMapsTogether_scoreboard__ui_display_piece_moves_")[1].split("_"),
         )
         piece = self.game_state.get_piece_by_coordinate(x, y)
         if piece.team != self.game_state.turn:
@@ -197,7 +202,7 @@ class ChessGame(Game):
 
         x, y = map(
             int,
-            button_id.split("it_thexivn_RandomMapsTogether_scoreboard__ui_move_piece_")[1].split("_")
+            button_id.split("it_thexivn_RandomMapsTogether_scoreboard__ui_move_piece_")[1].split("_"),
         )
         promote_piece_class = None
 
@@ -222,7 +227,7 @@ class ChessGame(Game):
                     {"name": "Knight", "value": Knight},
                 ]
                 promote_piece_class = await PlayerPromptView.prompt_for_input(
-                    player, "Promote pawn", buttons, entry=False, ok_button=False
+                    player, "Promote pawn", buttons, entry=False, ok_button=False,
                 )
 
         elif not self.game_state.target_piece and isinstance(self.game_state.current_piece, King) \
@@ -275,8 +280,8 @@ class ChessGame(Game):
                         piece=self.game_state.current_piece.__class__.__name__.lower(),
                         x=self.game_state.current_piece.x,
                         y=self.game_state.current_piece.y,
-                    )
-                )
+                    ),
+                ),
             )
 
         if self.game_state.turn == Team.WHITE:
