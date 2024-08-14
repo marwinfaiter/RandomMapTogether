@@ -1,5 +1,6 @@
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 PKG = 'it.thexivn.random_maps_together'
 ######
@@ -54,7 +55,7 @@ setup(
         "test": [
             "mypy",
             "pytest",
-            "pylint",
+            "ruff",
             "mockito",
             "types-peewee",
         ]

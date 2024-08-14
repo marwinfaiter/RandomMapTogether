@@ -29,9 +29,9 @@ pipeline {
                                 sh "python -m mypy it tests"
                             }
                         }
-                        stage("Run pylint") {
+                        stage("Run lint") {
                             steps {
-                                sh "python -m pylint it tests"
+                                sh "python -m ruff check it tests"
                             }
                         }
                         stage("Run pytest") {

@@ -27,6 +27,10 @@ class RMTPlayerScore(TimedModel):
 
     @hybrid_property
     def medal_sum(self) -> int:
+        assert isinstance(self.author_medals, int)
+        assert isinstance(self.gold_medals, int)
+        assert isinstance(self.silver_medals, int)
+        assert isinstance(self.bronze_medals, int)
         return sum([
             self.author_medals * Medals.AUTHOR.value,
             self.gold_medals * Medals.GOLD.value,
@@ -55,6 +59,13 @@ class RMTPlayerScore(TimedModel):
         )
 
     async def increase_medal_count(self, medal: Medals):
+        assert isinstance(self.author_medals, int)
+        assert isinstance(self.gold_medals, int)
+        assert isinstance(self.silver_medals, int)
+        assert isinstance(self.bronze_medals, int)
+        assert isinstance(self.total_goal_medals, int)
+        assert isinstance(self.total_skip_medals, int)
+
         game_score = (
             self.game_score
             if isinstance(self.game_score, RMTScore)
