@@ -3,6 +3,7 @@ import logging
 from typing import ClassVar, Dict, List
 
 import peeweedbevolve as _  # noqa: F401
+
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet import callbacks as mania_callback
 from pyplanet.apps.core.maniaplanet.models import Player
@@ -12,7 +13,10 @@ from pyplanet.core.db.database import Database, Proxy
 from pyplanet.core.ui import GlobalUIManager
 
 from .client.tm_exchange_client import TMExchangeClient
-from .configuration import check_player_allowed_to_change_game_settings, check_player_allowed_to_manage_running_game
+from .configuration import (
+    check_player_allowed_to_change_game_settings,
+    check_player_allowed_to_manage_running_game,
+)
 from .games.rmt.random_map_challenge_game import RandomMapChallengeGame
 from .map_handler import MapHandler
 from .settings import MIN_PLAYER_LEVEL_SETTINGS
@@ -93,7 +97,7 @@ class RandomMapsTogetherApp(AppConfig):
         await self.chat(f'{player.nickname} started new game: {self.game.game_mode.value}')
         try:
             async with self.game as game:
-                while game.game_is_in_progress:
+                while game.game_is_in_progress: # noqa: ASYNC110
                     await asyncio.sleep(1)
         except Exception as e: # pylint: disable=broad-exception-caught
             await self.chat(str(e))

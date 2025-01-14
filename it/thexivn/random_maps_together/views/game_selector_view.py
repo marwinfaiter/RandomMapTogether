@@ -2,17 +2,20 @@ import asyncio
 import logging
 
 from attrs import fields
-from it.thexivn.random_maps_together.configuration import \
-    check_player_allowed_to_change_game_settings
+
+from it.thexivn.random_maps_together.configuration import (
+    check_player_allowed_to_change_game_settings,
+)
 from it.thexivn.random_maps_together.games.chess import ChessGame
-from it.thexivn.random_maps_together.games.rmt.random_map_challenge_game import \
-    RandomMapChallengeGame
-from it.thexivn.random_maps_together.games.rmt.random_map_survival_game import \
-    RandomMapSurvivalGame
+from it.thexivn.random_maps_together.games.rmt.random_map_challenge_game import (
+    RandomMapChallengeGame,
+)
+from it.thexivn.random_maps_together.games.rmt.random_map_survival_game import (
+    RandomMapSurvivalGame,
+)
 from it.thexivn.random_maps_together.models.enums.game_modes import GameModes
 from it.thexivn.random_maps_together.models.enums.game_script import GameScript
-from it.thexivn.random_maps_together.views.player_prompt_view import \
-    PlayerPromptView
+from it.thexivn.random_maps_together.views.player_prompt_view import PlayerPromptView
 from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.views.generics.widget import WidgetView
 
@@ -82,6 +85,6 @@ class GameSelectorView(WidgetView):
             await self.app.mode_manager.set_next_script(game_script.value)
             await self.app.map_handler.restart_map()
 
-        while GameScript(await self.app.mode_manager.get_current_script(refresh=True)) != game_script:
+        while GameScript(await self.app.mode_manager.get_current_script(refresh=True)) != game_script: # noqa: ASYNC110
             await asyncio.sleep(1)
         self.app.mode_settings = await self.app.instance.mode_manager.get_settings()

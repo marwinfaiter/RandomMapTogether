@@ -1,8 +1,8 @@
-from it.thexivn.random_maps_together.models.database.rmt.rmt_score import \
-    RMTScore
-from it.thexivn.random_maps_together.models.enums.medals import Medals
 from peewee import CharField, ForeignKeyField, IntegerField
 from playhouse.hybrid import hybrid_property
+
+from it.thexivn.random_maps_together.models.database.rmt.rmt_score import RMTScore
+from it.thexivn.random_maps_together.models.enums.medals import Medals
 from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.core.db import TimedModel
 
@@ -26,10 +26,6 @@ class RMTPlayerScore(TimedModel):
 
     @hybrid_property
     def medal_sum(self) -> int:
-        assert isinstance(self.author_medals, int)
-        assert isinstance(self.gold_medals, int)
-        assert isinstance(self.silver_medals, int)
-        assert isinstance(self.bronze_medals, int)
         return sum([
             self.author_medals * Medals.AUTHOR.value,
             self.gold_medals * Medals.GOLD.value,

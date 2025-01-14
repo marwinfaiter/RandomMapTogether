@@ -41,14 +41,14 @@ select = [
     "RSE",  # flake8-raise — unnecessary parenthesis on exceptions with no params
     "SLF",  # flake8-self — dissallow private member (i.e. x._y) access
     "SLOT", # flake8-slots — __slots__ in subclasses of str and tuple
-    "TRY004", "TRY201", "TRY301", "TRY302", "TRY401",  # tryceratops — try-except issues
+    "TRY004", "TRY201", "TRY301", "TRY203", "TRY401",  # tryceratops — try-except issues
 
     # Minor rule sets. Usually just contain a few very specific issues, that we are unlikely to hit. But still.
     "ASYNC",# flake8-async
     "EXE",  # flake8-executable — shebang-related
     "LOG", # flake8-logging — Python logging-module related issues
     "FLY",  # flynt — prefer f-strings to join in certain cases
-    "TCH004", "TCH005", "TCH010",  # flake8-type-checking — TC-related problems, not TC itself
+    "TC004", "TC005", "TC010",  # flake8-type-checking — TC-related problems, not TC itself
     "TID",  # flake8-tidy-imports — healthy imports
     "YTT",  # flake8-2020 — sys.version-related issues
 ]

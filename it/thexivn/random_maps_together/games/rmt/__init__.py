@@ -1,22 +1,36 @@
 import asyncio
 import logging
 
+from it.thexivn.random_maps_together.configuration import (
+    check_player_allowed_to_manage_running_game,
+)
+from it.thexivn.random_maps_together.configuration.rmt import (
+    RandomMapsTogetherConfiguration,
+)
+from it.thexivn.random_maps_together.constants import (
+    BIG_MESSAGE,
+    RACE_SCORES_TABLE,
+    S_FORCE_LAPS_NB,
+    S_TIME_LIMIT,
+)
+from it.thexivn.random_maps_together.games import Game
+from it.thexivn.random_maps_together.models.database.rmt.rmt_player_score import (
+    RMTPlayerScore,
+)
+from it.thexivn.random_maps_together.models.database.rmt.rmt_score import RMTScore
+from it.thexivn.random_maps_together.models.enums.game_modes import GameModes
+from it.thexivn.random_maps_together.models.enums.game_script import GameScript
+from it.thexivn.random_maps_together.models.game_views.rmt import (
+    RandomMapsTogetherViews,
+)
+from it.thexivn.random_maps_together.models.rmt.game_state import GameState
+from it.thexivn.random_maps_together.views.rmt.scoreboard import (
+    RandomMapsTogetherScoreBoardView,
+)
 from pyplanet.apps.core.maniaplanet import callbacks as mania_callback
 from pyplanet.apps.core.maniaplanet.models import Player
 from pyplanet.apps.core.trackmania import callbacks as tm_callbacks
 from pyplanet.utils.times import format_time
-
-from it.thexivn.random_maps_together.configuration import check_player_allowed_to_manage_running_game
-from it.thexivn.random_maps_together.configuration.rmt import RandomMapsTogetherConfiguration
-from it.thexivn.random_maps_together.constants import BIG_MESSAGE, RACE_SCORES_TABLE, S_FORCE_LAPS_NB, S_TIME_LIMIT
-from it.thexivn.random_maps_together.games import Game
-from it.thexivn.random_maps_together.models.database.rmt.rmt_player_score import RMTPlayerScore
-from it.thexivn.random_maps_together.models.database.rmt.rmt_score import RMTScore
-from it.thexivn.random_maps_together.models.enums.game_modes import GameModes
-from it.thexivn.random_maps_together.models.enums.game_script import GameScript
-from it.thexivn.random_maps_together.models.game_views.rmt import RandomMapsTogetherViews
-from it.thexivn.random_maps_together.models.rmt.game_state import GameState
-from it.thexivn.random_maps_together.views.rmt.scoreboard import RandomMapsTogetherScoreBoardView
 
 _lock = asyncio.Lock()
 
@@ -105,7 +119,7 @@ class RMTGame(Game):
         logger.info("Back to HUB completed")
 
     async def _show_scoreboard_until_hub_map(self):
-        while self.app.map_handler.active_map.uid != self.app.map_handler.hub_map:
+        while self.app.map_handler.active_map.uid != self.app.map_handler.hub_map: # noqa: ASYNC110
             await asyncio.sleep(1)
         await self.hide_custom_scoreboard()
 
