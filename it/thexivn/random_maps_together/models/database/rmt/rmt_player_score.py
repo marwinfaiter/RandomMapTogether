@@ -27,10 +27,10 @@ class RMTPlayerScore(TimedModel):
     @hybrid_property
     def medal_sum(self) -> int:
         return sum([
-            self.author_medals * Medals.AUTHOR.value,
-            self.gold_medals * Medals.GOLD.value,
-            self.silver_medals * Medals.SILVER.value,
-            self.bronze_medals * Medals.BRONZE.value,
+            self.author_medals * Medals.AUTHOR.value, # type: ignore[list-item]
+            self.gold_medals * Medals.GOLD.value, # type: ignore[list-item]
+            self.silver_medals * Medals.SILVER.value, # type: ignore[list-item]
+            self.bronze_medals * Medals.BRONZE.value, # type: ignore[list-item]
         ])
 
     @staticmethod
