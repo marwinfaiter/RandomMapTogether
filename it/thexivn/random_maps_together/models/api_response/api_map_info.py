@@ -39,7 +39,7 @@ class APIMapInfo:
             tuple(
                 MapTag(id=tag["TagId"], name=tag["Name"], color=tag["Color"])
                 for tag in json["Tags"]
-            )
+            ),
         )
 
     # "UserID": 129732,

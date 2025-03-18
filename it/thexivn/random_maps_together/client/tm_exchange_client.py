@@ -26,11 +26,12 @@ class TMExchangeClient:
             return await response.read()
 
     async def search_map(self, params=None) -> List[APIMapInfo]:
-        response = await self.get_json("api/maps", {
-            **{
-                "fields": "MapId,MapUid,UpdatedAt,Uploader.Name,Name,Tags"
-            },
-            **(params if params else {})})
+        response = await self.get_json("api/maps",
+            {
+                "fields": "MapId,MapUid,UpdatedAt,Uploader.Name,Name,Tags",
+                **(params if params else {}),
+            }
+        )
         return [
             APIMapInfo.from_json(map_json)
             for map_json in response.get("Results", [])
@@ -46,12 +47,12 @@ class TMExchangeClient:
         return maps.pop()
 
     async def search_mappack(self, params=None):
-        response = await self.get_json("api/mappacks", {
-            **{
-                "fields": "MappackId,Name,MapCount"
-            },
-            **(params if params else {})
-        })
+        response = await self.get_json("api/mappacks",
+            {
+                "fields": "MappackId,Name,MapCount",
+                **(params if params else {}),
+            }
+        )
         return [
             APIMapPackInfo.from_json(map_pack_json)
             for map_pack_json in response.get("Results", [])
