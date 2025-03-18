@@ -5,14 +5,12 @@ from attrs import define
 class APIMapPackInfo:
     id: int
     name: str
-    downloads: int
     track_count: int
 
     @classmethod
     def from_json(cls, json):
         return cls(
-            json["ID"],
+            json["MappackId"],
             json["Name"],
-            json["Downloads"],
-            json["TrackCount"],
+            json["MapCount"],
         )

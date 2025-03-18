@@ -1,9 +1,13 @@
 from datetime import date, datetime
-from typing import List, Tuple
+from typing import Tuple
 
 from attrs import define
 
-from it.thexivn.random_maps_together.constants import ICE_CHANGE_DATE, TAG_BOBSLEIGH, TAG_ICE
+from it.thexivn.random_maps_together.constants import (
+    ICE_CHANGE_DATE,
+    TAG_BOBSLEIGH,
+    TAG_ICE,
+)
 from it.thexivn.random_maps_together.models.map_tag import MapTag
 
 
@@ -23,16 +27,19 @@ class APIMapInfo:
         return bool(next((tag for tag in self.Tags if tag.id == tag_id), None))
 
     @classmethod
-    def from_json(cls, json, map_tags: List[MapTag]) -> "APIMapInfo":
+    def from_json(cls, json) -> "APIMapInfo":
         date_string, milliseconds = json["UpdatedAt"].split(".")
         json["UpdatedAt"] = f"{date_string}.{int(milliseconds):<03d}"
         return cls(
-            json["TrackID"],
-            json["TrackUID"],
+            json["MapId"],
+            json["MapUid"],
             datetime.fromisoformat(json["UpdatedAt"]).date(),
-            json["Username"],
+            json["Uploader"]["Name"],
             json["Name"],
-            tuple(filter(lambda tag: str(tag.id) in json["Tags"].split(","), map_tags)),
+            tuple(
+                MapTag(id=tag["TagId"], name=tag["Name"], color=tag["Color"])
+                for tag in json["Tags"]
+            )
         )
 
     # "UserID": 129732,

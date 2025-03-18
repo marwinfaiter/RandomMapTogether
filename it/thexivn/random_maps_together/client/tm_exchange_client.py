@@ -3,7 +3,9 @@ from typing import List
 import aiohttp
 
 from it.thexivn.random_maps_together.models.api_response.api_map_info import APIMapInfo
-from it.thexivn.random_maps_together.models.api_response.api_map_pack_info import APIMapPackInfo
+from it.thexivn.random_maps_together.models.api_response.api_map_pack_info import (
+    APIMapPackInfo,
+)
 from it.thexivn.random_maps_together.models.map_tag import MapTag
 
 
@@ -24,63 +26,55 @@ class TMExchangeClient:
             return await response.read()
 
     async def search_map(self, params=None) -> List[APIMapInfo]:
-        response = await self.get_json("mapsearch2/search", params)
+        response = await self.get_json("api/maps", {
+            **{
+                "fields": "MapId,MapUid,UpdatedAt,Uploader.Name,Name,Tags"
+            },
+            **(params if params else {})})
         return [
-            APIMapInfo.from_json(map_json, await self.get_tags())
-            for map_json in response.get("results", [])
+            APIMapInfo.from_json(map_json)
+            for map_json in response.get("Results", [])
         ]
 
     async def search_random_map(self) -> APIMapInfo:
         maps = await self.search_map({
-            "api": "on",
+            "count": 1,
             "random": 1,
-            "lengthop": 1,
-            "length": 9,
-            "etags": "23,46,40,41,42,37",
+            "lengthmax": 9,
+            "etag": "23,46,40,41,42,37",
         })
         return maps.pop()
 
     async def search_mappack(self, params=None):
-        response = await self.get_json("mappacksearch/search", params)
+        response = await self.get_json("api/mappacks", {
+            **{
+                "fields": "MappackId,Name,MapCount"
+            },
+            **(params if params else {})
+        })
         return [
             APIMapPackInfo.from_json(map_pack_json)
-            for map_pack_json in response.get("results", [])
+            for map_pack_json in response.get("Results", [])
         ]
-
-    async def search_mappack_totd(self):
-        return await self.search_mappack({
-            "api": "on",
-            "mode": 1,
-            "creatorid": 21,
-            "name": "TOTD - Track of the Day",
-        })
 
     async def search_random_mappack_totd(self):
         map_packs = await self.search_mappack({
-            "api": "on",
-            "mode": 1,
+            "count": 1,
             "random": 1,
-            "creatorid": 21,
+            "manageruserid": 21,
             "name": "TOTD - Track of the Day",
         })
         return map_packs.pop()
 
-
-
     async def get_map_info_by_id(self, map_id):
-        return APIMapInfo.from_json(
-            await self.get_json(f"api/maps/get_map_info/id/{map_id}"),
-            await self.get_tags(),
-        )
+        maps = await self.search_map({"id": map_id})
+        return maps.pop()
 
     async def get_mappack_info_by_id(self, map_pack_id):
         return await self.get_json(f"api/mappack/get_info/{map_pack_id}")
 
     async def get_mappack_tracks(self, map_pack_id):
-        return [
-            APIMapInfo.from_json(map_json, await self.get_tags())
-            for map_json in await self.get_json(f"api/mappack/get_mappack_tracks/{map_pack_id}")
-        ]
+        return await self.search_map({"mappackid": map_pack_id})
 
     async def get_tags(self) -> List[MapTag]:
         if self.map_tags:
@@ -94,5 +88,4 @@ class TMExchangeClient:
         return self.map_tags
 
     async def get_map_content(self, map_id):
-        return await self.get_content(f"maps/download/{map_id}")
         return await self.get_content(f"maps/download/{map_id}")
