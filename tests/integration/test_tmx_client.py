@@ -90,7 +90,7 @@ class TestTMXClient(IsolatedAsyncioTestCase):
                     "TagId": 32,
                     "Name": "Transitional",
                     "Color": "",
-                }
+                },
             ],
             "Name": "go",
         }
