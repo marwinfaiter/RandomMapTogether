@@ -78,21 +78,21 @@ class TestTMXClient(IsolatedAsyncioTestCase):
             "MapUid": "oNSbGPYPbNiAJ37gsjAkL5oqnRb",
             "UpdatedAt": "2025-03-06T15:55:17.491",
             "Uploader": {
-                "Name": "koomah"
+                "Name": "koomah",
             },
             "Tags": [
                 {
                     "TagId": 15,
                     "Name": "Dirt",
-                    "Color": "5e2d09"
+                    "Color": "5e2d09",
                 },
                 {
                     "TagId": 32,
                     "Name": "Transitional",
-                    "Color": ""
+                    "Color": "",
                 }
             ],
-            "Name": "go"
+            "Name": "go",
         }
 
     def _expected_map_pack_search(self):
@@ -104,5 +104,5 @@ class TestTMXClient(IsolatedAsyncioTestCase):
         return {
             "MappackId": 1567,
             "MapCount": 29,
-            "Name": "TOTD - Track of the Day - May 2022"
+            "Name": "TOTD - Track of the Day - May 2022",
         }
