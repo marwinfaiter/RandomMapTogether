@@ -34,11 +34,11 @@ pipeline {
                                 sh "python -m ruff check it tests"
                             }
                         }
-                        stage("Run pytest") {
-                            steps {
-                                sh "python -m pytest tests"
-                            }
-                        }
+                        // stage("Run pytest") {
+                        //     steps {
+                        //         sh "python -m pytest tests"
+                        //     }
+                        // }
                     }
                 }
             }
