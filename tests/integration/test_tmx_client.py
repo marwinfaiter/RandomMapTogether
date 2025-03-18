@@ -52,7 +52,7 @@ class TestTMXClient(IsolatedAsyncioTestCase):
 
     async def test_search_random_map(self):
         expect(ClientSession, times=1).get(
-            f"{self.base_url}/maps", **KWARGS,
+            f"{self.base_url}/api/maps", **KWARGS,
         ).thenReturn(
             MockedResponse(self._expected_map_search(), 200),
         )
