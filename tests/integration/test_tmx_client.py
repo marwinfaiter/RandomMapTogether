@@ -2,11 +2,12 @@ import json
 from unittest import IsolatedAsyncioTestCase
 
 from aiohttp import ClientSession
-from mockito import KWARGS, expect, unstub, verifyNoUnwantedInteractions
-
 from it.thexivn.random_maps_together.client.tm_exchange_client import TMExchangeClient
 from it.thexivn.random_maps_together.models.api_response.api_map_info import APIMapInfo
-from it.thexivn.random_maps_together.models.api_response.api_map_pack_info import APIMapPackInfo
+from it.thexivn.random_maps_together.models.api_response.api_map_pack_info import (
+    APIMapPackInfo,
+)
+from mockito import KWARGS, expect, unstub, verifyNoUnwantedInteractions
 
 from ..map_tags import TestMapTags  # noqa: TID252
 
@@ -61,7 +62,7 @@ class TestTMXClient(IsolatedAsyncioTestCase):
             MockedResponse(self._expected_map_search(), 200),
         )
         assert await self.tmx_client.search_random_map() == APIMapInfo.from_json(
-            self._expected_map(), self.test_map_tags.expected_map_tags_as_objects(),
+            self._expected_map(),
         )
 
     async def test_search_mappack(self):
