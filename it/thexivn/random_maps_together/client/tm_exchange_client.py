@@ -30,7 +30,7 @@ class TMExchangeClient:
             {
                 "fields": "MapId,MapUid,UpdatedAt,Uploader.Name,Name,Tags",
                 **(params if params else {}),
-            }
+            },
         )
         return [
             APIMapInfo.from_json(map_json)
@@ -51,7 +51,7 @@ class TMExchangeClient:
             {
                 "fields": "MappackId,Name,MapCount",
                 **(params if params else {}),
-            }
+            },
         )
         return [
             APIMapPackInfo.from_json(map_pack_json)
